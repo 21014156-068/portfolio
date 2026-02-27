@@ -1,16 +1,37 @@
-
 import {
-  Download, Mail, MapPin, Phone, Globe, Calendar, Award, BookOpen, Code2,
-  ExternalLink
-} from 'lucide-react';
+  Download,
+  Mail,
+  MapPin,
+  Phone,
+  Globe,
+  Calendar,
+  Award,
+  BookOpen,
+  Code2,
+  ExternalLink,
+  Linkedin,
+} from "lucide-react";
 
 // Advanced Neumorphic Card Component
-const NeuCard = ({ icon, heading, headingHighlight, children, style = {}, className = "" }) => (
+const NeuCard = ({
+  icon,
+  heading,
+  headingHighlight,
+  children,
+  style = {},
+  className = "",
+}) => (
   <div className={`neu-card neu-animate ${className}`} style={style}>
     <div className="neu-card-heading">
       {icon}
-      <span className="neu-heading-gradient">{headingHighlight || heading}</span>
-      {headingHighlight && <span className="neu-heading-fade">&nbsp;{heading.replace(headingHighlight, "")}</span>}
+      <span className="neu-heading-gradient">
+        {headingHighlight || heading}
+      </span>
+      {headingHighlight && (
+        <span className="neu-heading-fade">
+          &nbsp;{heading.replace(headingHighlight, "")}
+        </span>
+      )}
     </div>
     {children}
   </div>
@@ -20,90 +41,89 @@ const ResumePage = () => {
   return (
     <section
       style={{
-        background: 'linear-gradient(135deg, #0D0F13 0%, #151920 100%)',
-        color: '#fff',
-        padding: '4rem 2rem',
+        background: "linear-gradient(135deg, #0D0F13 0%, #151920 100%)",
+        color: "#fff",
+        padding: "4rem 2rem",
         fontFamily: "'Inter', sans-serif",
-        minHeight: '100vh'
+        minHeight: "100vh",
       }}
     >
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
         {/* Page Header */}
-        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
           <h1
             style={{
-              fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+              fontSize: "clamp(2rem, 5vw, 3.5rem)",
               fontWeight: 700,
-              marginBottom: '1rem',
-              background: 'linear-gradient(to right, #4f46e5, #ec4899)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
+              marginBottom: "1rem",
+              background: "linear-gradient(to right, #4f46e5, #ec4899)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
             }}
           >
             My Resume
           </h1>
           <p
             style={{
-              fontSize: '1.2rem',
-              color: '#d1d5db',
-              maxWidth: '600px',
-              margin: '0 auto',
-              lineHeight: 1.6
+              fontSize: "1.2rem",
+              color: "#d1d5db",
+              maxWidth: "600px",
+              margin: "0 auto",
+              lineHeight: 1.6,
             }}
           >
             A detailed overview of my experience, education, and skills
           </p>
-          <a 
-  href="/CV.pdf" 
-  download 
-  style={{ textDecoration: "none", display: "inline-block" }}
->
-  <button
-    style={{
-      padding: '0.75rem 2rem',
-      borderRadius: '8px',
-      border: 'none',
-      fontSize: '1rem',
-      fontWeight: 600,
-      cursor: 'pointer',
-      transition: 'all 0.3s ease',
-      background: 'linear-gradient(145deg, #4f46e5, #6366f1)',
-      color: '#fff',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.5rem',
-      boxShadow: '0 4px 14px rgba(79, 70, 229, 0.4)',
-      margin: '2rem auto 0'
-    }}
-    onMouseEnter={e => {
-      e.target.style.boxShadow = '0 6px 20px rgba(79, 70, 229, 0.6)';
-      e.target.style.transform = 'translateY(-2px)';
-    }}
-    onMouseLeave={e => {
-      e.target.style.boxShadow = '0 4px 14px rgba(79, 70, 229, 0.4)';
-      e.target.style.transform = 'translateY(0)';
-    }}
-  >
-    <Download size={18} />
-    Download PDF
-  </button>
-</a>
-
+          <a
+            href="/CV.pdf"
+            download
+            style={{ textDecoration: "none", display: "inline-block" }}
+          >
+            <button
+              style={{
+                padding: "0.75rem 2rem",
+                borderRadius: "8px",
+                border: "none",
+                fontSize: "1rem",
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+                background: "linear-gradient(145deg, #4f46e5, #6366f1)",
+                color: "#fff",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                boxShadow: "0 4px 14px rgba(79, 70, 229, 0.4)",
+                margin: "2rem auto 0",
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.boxShadow = "0 6px 20px rgba(79, 70, 229, 0.6)";
+                e.target.style.transform = "translateY(-2px)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.boxShadow = "0 4px 14px rgba(79, 70, 229, 0.4)";
+                e.target.style.transform = "translateY(0)";
+              }}
+            >
+              <Download size={18} />
+              Download PDF
+            </button>
+          </a>
         </div>
 
         {/* Main Content */}
         <div
           style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '3rem',
-            alignItems: 'flex-start'
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "3rem",
+            alignItems: "flex-start",
           }}
         >
           {/* Left Column - Education & Work Experience */}
-          <div style={{ flex: '2 1 700px' }}>
+          <div style={{ flex: "2 1 700px" }}>
             {/* Education */}
-            <div style={{ marginBottom: '3rem' }}>
+            <div style={{ marginBottom: "3rem" }}>
               <h2 className="neu-section-title">
                 <BookOpen size={24} />
                 <span className="neu-heading-gradient">Education</span>
@@ -116,12 +136,25 @@ const ResumePage = () => {
                   headingHighlight="BS"
                 >
                   <div className="neu-card-row">
-                    <span className="neu-text-animate">University of Gujrat, Pakistan</span>
-                    <span className="neu-text-animate neu-card-date"><Calendar size={16} />2021 - 2025</span>
+                    <span className="neu-text-animate">
+                      University of Gujrat, Pakistan
+                    </span>
+                    <span className="neu-text-animate neu-card-date">
+                      <Calendar size={16} />
+                      2021 - 2025
+                    </span>
                   </div>
-                  <div className="neu-text-animate neu-card-detail">GPA: 2.78/4.0 | EQF level 6</div>
-                  <div className="neu-text-animate neu-card-detail" style={{ fontSize: '0.96rem', color: '#d1d5db' }}>
-                    Relevant coursework: Programming Fundamentals, Object-Oriented Programming, Data Structures and Algorithms, Information Security, Software Engineering, Web Technologies, Database Systems, OS, Mobile App Dev, AI
+                  <div className="neu-text-animate neu-card-detail">
+                    GPA: 2.78/4.0 | EQF level 6
+                  </div>
+                  <div
+                    className="neu-text-animate neu-card-detail"
+                    style={{ fontSize: "0.96rem", color: "#d1d5db" }}
+                  >
+                    Relevant coursework: Programming Fundamentals,
+                    Object-Oriented Programming, Data Structures and Algorithms,
+                    Information Security, Software Engineering, Web
+                    Technologies, Database Systems, OS, Mobile App Dev, AI
                   </div>
                 </NeuCard>
 
@@ -132,11 +165,21 @@ const ResumePage = () => {
                   headingHighlight="Intermediate"
                 >
                   <div className="neu-card-row">
-                    <span className="neu-text-animate">Govt Degree College Qila Didar Singh, Gujranwala</span>
-                    <span className="neu-text-animate neu-card-date"><Calendar size={16} />2019 - 2021</span>
+                    <span className="neu-text-animate">
+                      Govt Degree College Qila Didar Singh, Gujranwala
+                    </span>
+                    <span className="neu-text-animate neu-card-date">
+                      <Calendar size={16} />
+                      2019 - 2021
+                    </span>
                   </div>
-                  <div className="neu-text-animate neu-card-detail">Grade: B | 681/1100</div>
-                  <div className="neu-text-animate neu-card-detail" style={{ fontSize: '0.96rem', color: '#d1d5db' }}>
+                  <div className="neu-text-animate neu-card-detail">
+                    Grade: B | 681/1100
+                  </div>
+                  <div
+                    className="neu-text-animate neu-card-detail"
+                    style={{ fontSize: "0.96rem", color: "#d1d5db" }}
+                  >
                     Major Subjects: Computer Science, Mathematics, Physics
                   </div>
                 </NeuCard>
@@ -148,19 +191,30 @@ const ResumePage = () => {
                   headingHighlight="Matriculation"
                 >
                   <div className="neu-card-row">
-                    <span className="neu-text-animate">Heaven Public School Qila Didar Singh, Gujranwala</span>
-                    <span className="neu-text-animate neu-card-date"><Calendar size={16} />2017 - 2019</span>
+                    <span className="neu-text-animate">
+                      Heaven Public School Qila Didar Singh, Gujranwala
+                    </span>
+                    <span className="neu-text-animate neu-card-date">
+                      <Calendar size={16} />
+                      2017 - 2019
+                    </span>
                   </div>
-                  <div className="neu-text-animate neu-card-detail">Grade: A | 813/1100</div>
-                  <div className="neu-text-animate neu-card-detail" style={{ fontSize: '0.96rem', color: '#d1d5db' }}>
-                    Major Subjects: Computer Science, Mathematics, Physics, Chemistry, Biology
+                  <div className="neu-text-animate neu-card-detail">
+                    Grade: A | 813/1100
+                  </div>
+                  <div
+                    className="neu-text-animate neu-card-detail"
+                    style={{ fontSize: "0.96rem", color: "#d1d5db" }}
+                  >
+                    Major Subjects: Computer Science, Mathematics, Physics,
+                    Chemistry, Biology
                   </div>
                 </NeuCard>
               </div>
             </div>
 
             {/* Work Experience */}
-            <div style={{ marginBottom: '3rem' }}>
+            <div style={{ marginBottom: "3rem" }}>
               <h2 className="neu-section-title">
                 <Award size={24} />
                 <span className="neu-heading-gradient">Work Experience</span>
@@ -169,21 +223,42 @@ const ResumePage = () => {
                 {/* Experience 1 */}
                 <NeuCard
                   icon={<Award size={20} />}
-                  heading="Founder & Developer - Toologi"
-                  headingHighlight="Toologi"
+                  heading="Developer - Paswal Tours LTD"
+                  headingHighlight="Paswal Tours LTD"
                 >
                   <div className="neu-card-row">
-                    <span className="neu-text-animate">Toologi - Online Tools Directory</span>
-                    <span className="neu-text-animate neu-card-date"><Calendar size={16} />Feb 2025 - Present</span>
+                    <span className="neu-text-animate">
+                      Travel, Visa, Flight Booking & Nadra Services Platform
+                    </span>
+                    <span className="neu-text-animate neu-card-date">
+                      <Calendar size={16} />
+                      Feb 2026 - Present
+                    </span>
                   </div>
                   <ul className="neu-card-list-ul">
-                    <li className="neu-text-animate">Designed, developed, and managed a WordPress-based online tools directory with 500+ tools</li>
-                    <li className="neu-text-animate">Integrated plugins, optimized site architecture, and implemented SEO strategies</li>
-                    <li className="neu-text-animate">Utilized AI-assisted tools (ChatGPT, Copilot) for workflow automation and content generation</li>
-                    <li className="neu-text-animate">Monitored site analytics and user feedback to improve performance and UX</li>
+                    <li className="neu-text-animate">
+                      Designed and developed a comprehensive platform offering
+                      visa services, flight booking, and Pakistan Nadra services
+                    </li>
+                    <li className="neu-text-animate">
+                      Integrated WhatsApp-based booking for instant
+                      communication with users
+                    </li>
+                    <li className="neu-text-animate">
+                      Ensured responsive, user-friendly design with secure data
+                      handling
+                    </li>
+                    <li className="neu-text-animate">
+                      Built informative sections to improve user trust,
+                      engagement, and transparency
+                    </li>
+                    <li className="neu-text-animate">
+                      Prepared backend for future real-time flight API
+                      integration and service automation
+                    </li>
                   </ul>
                   <a
-                    href="https://toologi.com/"
+                    href="https://mysafetrips.com/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="neu-link"
@@ -200,50 +275,76 @@ const ResumePage = () => {
                   headingHighlight="Green Garden"
                 >
                   <div className="neu-card-row">
-                    <span className="neu-text-animate">Green Garden - AI-Powered E-Commerce Platform</span>
-                    <span className="neu-text-animate neu-card-date"><Calendar size={16} />Dec 2024 - Apr 2025</span>
+                    <span className="neu-text-animate">
+                      Green Garden - AI-Powered E-Commerce Platform
+                    </span>
+                    <span className="neu-text-animate neu-card-date">
+                      <Calendar size={16} />
+                      Dec 2024 - Apr 2025
+                    </span>
                   </div>
                   <ul className="neu-card-list-ul">
-                    <li className="neu-text-animate">Designed and deployed a full-stack MERN eCommerce application</li>
-                    <li className="neu-text-animate">Integrated user authentication, shopping cart, secure checkout, and booking system</li>
-                    <li className="neu-text-animate">Implemented AI modules: CNN-based plant recognition and chatbot assistant</li>
-                    <li className="neu-text-animate">Used GitHub for version control and managed project delivery timelines</li>
+                    <li className="neu-text-animate">
+                      Designed and deployed a full-stack MERN eCommerce
+                      application
+                    </li>
+                    <li className="neu-text-animate">
+                      Integrated user authentication, shopping cart, secure
+                      checkout, and booking system
+                    </li>
+                    <li className="neu-text-animate">
+                      Implemented AI modules: CNN-based plant recognition and
+                      chatbot assistant
+                    </li>
+                    <li className="neu-text-animate">
+                      Used GitHub for version control and managed project
+                      delivery timelines
+                    </li>
                   </ul>
                 </NeuCard>
               </div>
-              <div style={{ textAlign: 'center', marginTop: '1.7rem' }}>
+              <div style={{ textAlign: "center", marginTop: "1.7rem" }}>
                 <button
                   className="see-all-btn"
                   style={{
-                    background: 'linear-gradient(145deg, #4f46e5, #6366f1)',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '8px',
-                    padding: '0.75rem 2.2rem',
+                    background: "linear-gradient(145deg, #4f46e5, #6366f1)",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "8px",
+                    padding: "0.75rem 2.2rem",
                     fontWeight: 600,
-                    fontSize: '1rem',
-                    cursor: 'pointer',
-                    boxShadow: '0 4px 14px rgba(79, 70, 229, 0.28)',
-                    transition: 'all 0.22s',
+                    fontSize: "1rem",
+                    cursor: "pointer",
+                    boxShadow: "0 4px 14px rgba(79, 70, 229, 0.28)",
+                    transition: "all 0.22s",
                   }}
-                  onMouseEnter={e => {
-                    e.target.style.boxShadow = '0 6px 20px rgba(79, 70, 229, 0.5)';
-                    e.target.style.transform = 'translateY(-2px)';
+                  onMouseEnter={(e) => {
+                    e.target.style.boxShadow =
+                      "0 6px 20px rgba(79, 70, 229, 0.5)";
+                    e.target.style.transform = "translateY(-2px)";
                   }}
-                  onMouseLeave={e => {
-                    e.target.style.boxShadow = '0 4px 14px rgba(79, 70, 229, 0.28)';
-                    e.target.style.transform = 'translateY(0)';
-                    }}
-                    onClick={() => window.location.href = "/projects"}
-                  >
-                    See All
-                  </button>
-                  </div>
-                </div>
-                </div>
+                  onMouseLeave={(e) => {
+                    e.target.style.boxShadow =
+                      "0 4px 14px rgba(79, 70, 229, 0.28)";
+                    e.target.style.transform = "translateY(0)";
+                  }}
+                  onClick={() => (window.location.href = "/projects")}
+                >
+                  See All
+                </button>
+              </div>
+            </div>
+          </div>
 
-                {/* Right Column - Skills & Contact */}
-          <div style={{ flex: '1 1 350px', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          {/* Right Column - Skills & Contact */}
+          <div
+            style={{
+              flex: "1 1 350px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "2rem",
+            }}
+          >
             {/* Contact Info */}
             <NeuCard
               icon={<Mail size={20} />}
@@ -253,7 +354,9 @@ const ResumePage = () => {
             >
               <div className="neu-card-row">
                 <Mail size={18} color="#4f46e5" />
-                <span className="neu-text-animate">abdullahawan7979@gmail.com</span>
+                <span className="neu-text-animate">
+                  abdullahawan7979@gmail.com
+                </span>
               </div>
               <div className="neu-card-row">
                 <Phone size={18} color="#4f46e5" />
@@ -263,10 +366,13 @@ const ResumePage = () => {
                 <MapPin size={18} color="#4f46e5" />
                 <span className="neu-text-animate">Gujranwala, Pakistan</span>
               </div>
-              {/* <div className="neu-card-row">
-                <Globe size={18} color="#4f46e5" />
-                <span className="neu-text-animate">https://toologi.com/</span>
-              </div> */}
+              <div className="neu-card-row">
+                <Linkedin size={18} color="#4f46e5" />
+                <span className="neu-text-animate">
+                  {" "}
+                  https://www.linkedin.com/in/abdullahafzaal79
+                </span>
+              </div>
             </NeuCard>
 
             {/* Skills */}
@@ -280,42 +386,81 @@ const ResumePage = () => {
                 <div>
                   <span className="neu-skill-category">Frontend</span>
                   <div className="neu-skill-tags">
-                    <span className="neu-skill-tag neu-text-animate">HTML5</span>
+                    <span className="neu-skill-tag neu-text-animate">
+                      HTML5
+                    </span>
                     <span className="neu-skill-tag neu-text-animate">CSS3</span>
-                    <span className="neu-skill-tag neu-text-animate">JavaScript (ES6+)</span>
-                    <span className="neu-skill-tag neu-text-animate">React.js</span>
+                    <span className="neu-skill-tag neu-text-animate">
+                      JavaScript (ES6+)
+                    </span>
+                    <span className="neu-skill-tag neu-text-animate">
+                      React.js
+                    </span>
                   </div>
                 </div>
                 <div>
                   <span className="neu-skill-category">Backend</span>
                   <div className="neu-skill-tags">
-                    <span className="neu-skill-tag neu-text-animate">Node.js</span>
-                    <span className="neu-skill-tag neu-text-animate">Express.js</span>
-                    <span className="neu-skill-tag neu-text-animate">REST APIs</span>
+                    <span className="neu-skill-tag neu-text-animate">
+                      Node.js
+                    </span>
+                    <span className="neu-skill-tag neu-text-animate">
+                      Express.js
+                    </span>
+                    <span className="neu-skill-tag neu-text-animate">
+                      REST APIs
+                    </span>
                   </div>
                 </div>
                 <div>
                   <span className="neu-skill-category">Database</span>
                   <div className="neu-skill-tags">
-                    <span className="neu-skill-tag neu-text-animate">MongoDB</span>
-                    <span className="neu-skill-tag neu-text-animate">MySQL</span>
+                    <span className="neu-skill-tag neu-text-animate">
+                      MongoDB
+                    </span>
+                    <span className="neu-skill-tag neu-text-animate">
+                      Schema Design
+                    </span>
+                    <span className="neu-skill-tag neu-text-animate">
+                      Indexing
+                    </span>
+                    <span className="neu-skill-tag neu-text-animate">
+                      Aggregation Pipeline
+                    </span>
+                    <span className="neu-skill-tag neu-text-animate">
+                      CRUD Operations
+                    </span>
                   </div>
                 </div>
                 <div>
                   <span className="neu-skill-category">eCommerce</span>
                   <div className="neu-skill-tags">
-                    <span className="neu-skill-tag neu-text-animate">WordPress</span>
-                    <span className="neu-skill-tag neu-text-animate">WooCommerce</span>
-                    <span className="neu-skill-tag neu-text-animate">Shopify</span>
-                    <span className="neu-skill-tag neu-text-animate">Payment Integration</span>
+                    <span className="neu-skill-tag neu-text-animate">
+                      WordPress
+                    </span>
+                    <span className="neu-skill-tag neu-text-animate">
+                      WooCommerce
+                    </span>
+                    <span className="neu-skill-tag neu-text-animate">
+                      Custom Shopify
+                    </span>
+                    <span className="neu-skill-tag neu-text-animate">
+                      Payment Integration
+                    </span>
                   </div>
                 </div>
                 <div>
                   <span className="neu-skill-category">Tools</span>
                   <div className="neu-skill-tags">
-                    <span className="neu-skill-tag neu-text-animate">Git & GitHub</span>
-                    <span className="neu-skill-tag neu-text-animate">AI Tools (ChatGPT, Copilot)</span>
-                    <span className="neu-skill-tag neu-text-animate">Google Analytics</span>
+                    <span className="neu-skill-tag neu-text-animate">
+                      Git & GitHub
+                    </span>
+                    <span className="neu-skill-tag neu-text-animate">
+                      AI Tools (ChatGPT, Copilot)
+                    </span>
+                    {/* <span className="neu-skill-tag neu-text-animate">
+                      Google Analytics
+                    </span> */}
                     <span className="neu-skill-tag neu-text-animate">SEO</span>
                   </div>
                 </div>
@@ -331,18 +476,48 @@ const ResumePage = () => {
             >
               <div className="neu-lang-row">
                 <span className="neu-text-animate">Urdu</span>
-                <span className="neu-text-animate" style={{ color: '#d1d5db', fontSize: '0.9rem' }}>Native</span>
-                <div className="neu-progress-bar"><div className="neu-progress-fill" style={{ width: '100%' }}></div></div>
+                <span
+                  className="neu-text-animate"
+                  style={{ color: "#d1d5db", fontSize: "0.9rem" }}
+                >
+                  Native
+                </span>
+                <div className="neu-progress-bar">
+                  <div
+                    className="neu-progress-fill"
+                    style={{ width: "100%" }}
+                  ></div>
+                </div>
               </div>
               <div className="neu-lang-row">
                 <span className="neu-text-animate">Punjabi</span>
-                <span className="neu-text-animate" style={{ color: '#d1d5db', fontSize: '0.9rem' }}>Native</span>
-                <div className="neu-progress-bar"><div className="neu-progress-fill" style={{ width: '100%' }}></div></div>
+                <span
+                  className="neu-text-animate"
+                  style={{ color: "#d1d5db", fontSize: "0.9rem" }}
+                >
+                  Native
+                </span>
+                <div className="neu-progress-bar">
+                  <div
+                    className="neu-progress-fill"
+                    style={{ width: "100%" }}
+                  ></div>
+                </div>
               </div>
               <div className="neu-lang-row">
                 <span className="neu-text-animate">English</span>
-                <span className="neu-text-animate" style={{ color: '#d1d5db', fontSize: '0.9rem' }}>B2 (Independent)</span>
-                <div className="neu-progress-bar"><div className="neu-progress-fill" style={{ width: '75%' }}></div></div>
+                <span
+                  className="neu-text-animate"
+                  style={{ color: "#d1d5db", fontSize: "0.9rem" }}
+                >
+                  B2 (Independent)
+                </span>
+                <div className="neu-progress-bar">
+                  <div
+                    className="neu-progress-fill"
+                    style={{ width: "75%" }}
+                  ></div>
+                </div>
               </div>
             </NeuCard>
           </div>

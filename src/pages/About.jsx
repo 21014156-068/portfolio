@@ -1,4 +1,12 @@
-import { Mail, MapPin, Calendar, Award, BookOpen, Code2 } from "lucide-react";
+import {
+  Mail,
+  MapPin,
+  Calendar,
+  Award,
+  BookOpen,
+  Code2,
+  Linkedin,
+} from "lucide-react";
 import { skillGroups } from "../components/data";
 
 const AboutPage = () => {
@@ -82,7 +90,7 @@ const AboutPage = () => {
               }}
             >
               <img
-                src="/mee1.JPG"
+                src="/pro.jpg"
                 alt="Abdullah Afzaal"
                 style={{
                   width: "100%",
@@ -148,6 +156,12 @@ const AboutPage = () => {
                     <Mail size={20} color="#4f46e5" />
                     <span className="neumorph-text-animate">
                       abdullahawan7979@gmail.com
+                    </span>
+                  </div>
+                  <div className="neumorph-row">
+                    <Linkedin size={20} color="#4f46e5" />
+                    <span className="neumorph-text-animate">
+                      https://www.linkedin.com/in/abdullahafzaal79
                     </span>
                   </div>
                 </div>

@@ -33,14 +33,21 @@ export const skillGroups = [
   {
     icon: <Database size={24} />,
     title: "Database",
-    skills: ["MongoDB", "CRUD Operations", "Schema Design", "MySQL"],
+    skills: [
+      "MongoDB",
+      "Indexing",
+      "Aggregation Pipeline",
+      "CRUD Operations",
+      "Schema Design",
+    ],
   },
   {
     icon: <ShoppingCart size={24} />,
     title: "eCommerce",
     skills: [
-      "WordPress/WooCommerce",
-      "Shopify",
+      "WordPress",
+      "WooCommerce",
+      "Shopify Customization",
       "Payment Integration",
       "Dropshipping",
     ],
@@ -83,7 +90,7 @@ export const projects = [
     ],
     category: "web",
     liveUrl: "#",
-    githubUrl: "#",
+    githubUrl: "https://github.com/21014156-068/green-garden",
     features: [
       "User authentication system",
       "AI-powered plant recognition",
@@ -103,7 +110,7 @@ export const projects = [
     images: ["/pas1.png", "/pas2.png", "/pa8.png"],
     technologies: ["WordPress", "PHP", "MySQL", "Elementor", "SEO"],
     category: "web",
-    liveUrl: "https://mysafetours.com/",
+    liveUrl: "https://mysafetrips.com/",
     githubUrl: "#",
     features: [
       "Visa Services",
