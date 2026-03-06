@@ -399,7 +399,7 @@ const styles = {
   cardTitle: {
     fontSize: "28px",
     margin: "0",
-    fontWeight: "800",
+    fontWeight: "700",
   },
   viewBtn: {
     marginTop: "15px",
