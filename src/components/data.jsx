@@ -69,28 +69,23 @@ export const skillGroups = [
   },
 ];
 
-//Project page data
 export const projects = [
   {
     id: 1,
-    title: "Green Garden",
+    title: "Green Garde",
+    category: "Mern Stack",
+    isFeatured: false,
+    image: "/Main.png",
     description:
-      "AI-Powered E-Commerce Platform with plant recognition and chatbot assistant",
-    fullDescription:
       "A full-stack MERN eCommerce platform specializing in gardening products. Features include user authentication, product catalog, shopping cart, secure checkout, and a unique gardener booking system. Integrated AI capabilities including a CNN-based plant recognition model and AI chatbot for customer support.",
-    featureImage: "/Main.png",
-    images: ["/Main.png"],
-    technologies: [
+    techStack: [
       "React.js",
       "Node.js",
       "Express.js",
-      "MongoDB",
       "CNN",
-      "ChatGPT",
+      "MongoDB",
+      "OpenAI API",
     ],
-    category: "web",
-    liveUrl: "#",
-    githubUrl: "https://github.com/21014156-068/green-garden",
     features: [
       "User authentication system",
       "AI-powered plant recognition",
@@ -98,20 +93,18 @@ export const projects = [
       "Gardener booking system",
       "Admin panel for management",
     ],
+    liveLink: null,
+    githubLink: "https://github.com/21014156-068/green-garden",
   },
   {
     id: 2,
     title: "Paswal Tours LTD",
+    category: "Travel Agency Website",
+    isFeatured: true,
+    image: "/pas1.png",
     description:
-      "A travel agency website built with WordPress, featuring custom themes and SEO optimization.",
-    fullDescription:
-      "A comprehensive online travel and visa services platform offering multi-entry and single-entry visas, flight bookings, and Pakistan NADRA services including ID card and passport issuance and renewal. The website features a responsive, user-friendly design, interactive hero sections, live WhatsApp integration for bookings, and enhanced user trust through transparent information and engaging content.",
-    featureImage: "/pa1.png",
-    images: ["/pas1.png", "/pas2.png", "/pa8.png"],
-    technologies: ["WordPress", "PHP", "MySQL", "Elementor", "SEO"],
-    category: "web",
-    liveUrl: "https://mysafetrips.com/",
-    githubUrl: "#",
+      "A comprehensive online travel and visa services platform offering multi-entry and single-entry visas, flight bookings, and Pakistan NADRA services including ID card and passport issuance and renewal.",
+    techStack: ["WordPress", "Elementor", "PHP", "Html", "Tailwind CSS"],
     features: [
       "Visa Services",
       "Flight Booking",
@@ -119,20 +112,36 @@ export const projects = [
       "Customer Support",
       "Secure Payments",
     ],
+    liveLink: "https://mysafetrips.com/",
+    githubLink: null,
   },
   {
     id: 3,
-    title: "This Portfolio Website",
+    title: "Alfattah Vibes",
+    category: "Ecommerce Website",
+    isFeatured: false,
+    image: "/al.png",
     description:
-      "Personal portfolio website showcasing projects, resume, and services.",
-    fullDescription:
+      "A comprehensive eCommerce platform built with wordpress woocommerce for local business owner to sell their products online.",
+    techStack: ["WordPress", "Elementor", "PHP", "Html", "Tailwind CSS"],
+    features: [
+      "Fully responsive design",
+      "Advanced 3D animations",
+      "Smooth page transitions",
+      "Fully Functional checkout system",
+    ],
+    liveLink: "https://alfattahvibes.com/",
+    githubLink: null,
+  },
+  {
+    id: 4,
+    title: "Portfolio Website",
+    category: "Web Development",
+    isFeatured: false,
+    image: "/p3.png",
+    description:
       "A professional developer portfolio built with React, TailwindCSS, Framer Motion, and Three.js. The site includes advanced 3D animations, smooth transitions, multi-page navigation (Home, About, Resume, Services, Projects, Contact), and a CV download feature.",
-    featureImage: "/p3.png",
-    images: ["/p3.png"],
-    technologies: ["React", "TailwindCSS", "Framer Motion", "Three.js"],
-    category: "web",
-    liveUrl: "https://abdullahjs.dev/",
-    githubUrl: "https://github.com/21014156-068/portfolio/",
+    techStack: ["React", "TailwindCSS", "Framer Motion", "Three.js"],
     features: [
       "Fully responsive design",
       "Advanced 3D animations",
@@ -140,6 +149,8 @@ export const projects = [
       "Multi-page layout (Home, About, Resume, Services, Projects, Contact)",
       "CV download functionality",
     ],
+    liveLink: "https://abdullahjs.dev/",
+    githubLink: "https://github.com/21014156-068/portfolio/",
   },
 ];
 

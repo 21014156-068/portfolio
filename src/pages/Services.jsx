@@ -71,7 +71,7 @@ const skillGroups = [
 const ServicesPage = () => (
   <section
     style={{
-      background: "linear-gradient(135deg, #0D0F13 0%, #151920 100%)",
+      background: "#050505",
       color: "#fff",
       padding: "4rem 2rem",
       fontFamily: "'Inter', sans-serif",

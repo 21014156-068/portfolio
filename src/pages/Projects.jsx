@@ -1,1003 +1,608 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ExternalLink,
   Github,
-  Filter,
   X,
-  Eye,
-  Code,
-  Zap,
+  CheckCircle2,
+  Layers,
+  Star,
   ChevronLeft,
   ChevronRight,
-  Menu,
 } from "lucide-react";
+
 import { projects } from "../components/data";
 
-const ProjectsPage = () => {
-  const [activeFilter, setActiveFilter] = useState("all");
+export default function ProjectsPage() {
   const [selectedProject, setSelectedProject] = useState(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const containerRef = useRef(null);
 
-  const filters = [
-    { id: "all", label: "All Projects" },
-    { id: "web", label: "Web Development" },
-    { id: "ecommerce", label: "E-Commerce" },
-    { id: "ai", label: "AI Integration" },
-  ];
+  // Find featured project index
+  const featuredIndex = projects.findIndex((p) => p.isFeatured);
 
-  const filteredProjects =
-    activeFilter === "all"
-      ? projects
-      : projects.filter((project) => project.category === activeFilter);
-
-  const openProjectModal = (project) => {
-    setSelectedProject(project);
-    setCurrentImageIndex(0);
-    document.body.style.overflow = "hidden";
+  // Create circular array starting from featured project
+  const getCircularProjects = () => {
+    const result = [];
+    const total = projects.length;
+    for (let i = 0; i < total; i++) {
+      const index = (featuredIndex + i) % total;
+      result.push(projects[index]);
+    }
+    return result;
   };
 
-  const closeProjectModal = () => {
-    setSelectedProject(null);
-    document.body.style.overflow = "auto";
+  const circularProjects = getCircularProjects();
+
+  const handleNext = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => (prev + 1) % circularProjects.length);
+    setTimeout(() => setIsTransitioning(false), 500);
   };
 
-  const nextImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === selectedProject.images.length - 1 ? 0 : prevIndex + 1,
+  const handlePrev = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentIndex(
+      (prev) => (prev - 1 + circularProjects.length) % circularProjects.length,
     );
+    setTimeout(() => setIsTransitioning(false), 500);
   };
 
-  const prevImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? selectedProject.images.length - 1 : prevIndex - 1,
-    );
+  // Calculate positions for cards
+  const getCardPosition = (index) => {
+    const totalCards = circularProjects.length;
+    const centerIndex = 0; // Featured card is at index 0
+
+    // Calculate relative position from current center
+    let relativePos = (index - currentIndex + totalCards) % totalCards;
+    if (relativePos > totalCards / 2) relativePos -= totalCards;
+
+    // Convert to angle (in degrees)
+    const angleStep = 30; // Degrees between cards
+    const angle = relativePos * angleStep;
+
+    // Calculate x offset based on angle
+    const radius = 400; // Distance from center
+    const xOffset = Math.sin(angle * (Math.PI / 180)) * radius;
+
+    // Calculate scale and opacity based on distance from center
+    const distance = Math.abs(relativePos);
+    const scale = Math.max(0.7, 1 - distance * 0.15);
+    const opacity = Math.max(0.4, 1 - distance * 0.2);
+    const zIndex = totalCards - distance;
+
+    return {
+      x: xOffset,
+      scale,
+      opacity,
+      zIndex,
+      isCenter: relativePos === 0,
+    };
   };
-
-  // Check screen size on resize
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  // Close modal on escape key press
-  useEffect(() => {
-    const handleEsc = (e) => {
-      if (e.keyCode === 27) closeProjectModal();
-    };
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, []);
 
   return (
-    <section
-      style={{
-        background: "linear-gradient(135deg, #0D0F13 0%, #151920 100%)",
-        color: "#fff",
-        padding: "4rem 1rem",
-        fontFamily: "'Inter', sans-serif",
-        minHeight: "100vh",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "1200px",
-          margin: "0 auto",
-        }}
-      >
-        {/* Page Header */}
-        <div
+    <div style={styles.page}>
+      <style>
+        {`
+          .hide-scrollbar::-webkit-scrollbar { display: none; }
+          .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        `}
+      </style>
+
+      <header style={styles.header}>
+        <h1
           style={{
-            textAlign: "center",
-            marginBottom: "3rem",
+            ...styles.title,
+            fontSize: "clamp(2rem, 5vw, 3.5rem)",
+            fontWeight: 700,
+            marginBottom: "1rem",
+            background:
+              "linear-gradient(to right, rgb(79, 70, 229), rgb(236, 72, 153))",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
           }}
         >
-          <h1
-            style={{
-              fontSize: "clamp(2rem, 5vw, 3.5rem)",
-              fontWeight: 700,
-              marginBottom: "1rem",
-              background: "linear-gradient(to right, #4f46e5, #ec4899)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            My Projects
-          </h1>
-          <p
-            style={{
-              fontSize: "1.2rem",
-              color: "#d1d5db",
-              maxWidth: "600px",
-              margin: "0 auto",
-              lineHeight: 1.6,
-            }}
-          >
-            A collection of my work showcasing full-stack development, eCommerce
-            solutions, and AI integration
-          </p>
+          Projects
+        </h1>
+        <p style={styles.subtitle}>
+          A collection of high-impact digital products and experiences.
+        </p>
+      </header>
+
+      <div style={styles.carouselContainer} ref={containerRef}>
+        <button
+          onClick={handlePrev}
+          style={{ ...styles.navButton, ...styles.navButtonLeft }}
+          disabled={isTransitioning}
+        >
+          <ChevronLeft size={30} />
+        </button>
+
+        <div style={styles.cardsWrapper}>
+          {circularProjects.map((project, index) => {
+            const position = getCardPosition(index);
+
+            return (
+              <motion.div
+                key={`${project.id}-${index}`}
+                style={{
+                  ...styles.card,
+                  zIndex: position.zIndex,
+                  opacity: position.opacity,
+                }}
+                animate={{
+                  x: position.x,
+                  scale: position.scale,
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 25,
+                  duration: 0.5,
+                }}
+                whileHover={
+                  position.isCenter
+                    ? { scale: position.scale * 1.02, translateY: -5 }
+                    : {}
+                }
+                onClick={() => position.isCenter && setSelectedProject(project)}
+              >
+                {project.isFeatured && (
+                  <div style={styles.featuredBadge}>
+                    <Star size={12} fill="currentColor" /> Featured
+                  </div>
+                )}
+
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  style={styles.cardImage}
+                  loading="lazy"
+                />
+                <div style={styles.cardOverlay}>
+                  <span style={styles.cardCategory}>{project.category}</span>
+                  <h3 style={styles.cardTitle}>{project.title}</h3>
+                  {position.isCenter && (
+                    <button style={styles.viewBtn}>View Project Details</button>
+                  )}
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
-        {/* Filter Buttons - Desktop */}
-        <div
-          style={{
-            display: isMobile ? "none" : "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: "1rem",
-            marginBottom: "3rem",
-          }}
+        <button
+          onClick={handleNext}
+          style={{ ...styles.navButton, ...styles.navButtonRight }}
+          disabled={isTransitioning}
         >
-          {filters.map((filter) => (
+          <ChevronRight size={30} />
+        </button>
+
+        <div style={styles.pagination}>
+          {circularProjects.map((_, index) => (
             <button
-              key={filter.id}
-              onClick={() => setActiveFilter(filter.id)}
+              key={index}
               style={{
-                padding: "0.75rem 1.5rem",
-                borderRadius: "50px",
-                border: "none",
-                fontSize: "1rem",
-                fontWeight: 600,
-                cursor: "pointer",
-                transition: "all 0.3s ease",
-                background:
-                  activeFilter === filter.id
-                    ? "linear-gradient(145deg, #4f46e5, #6366f1)"
-                    : "rgba(255, 255, 255, 0.05)",
-                color: "#fff",
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                boxShadow:
-                  activeFilter === filter.id
-                    ? "0 10px 20px rgba(79, 70, 229, 0.3)"
-                    : "5px 5px 10px #0a0b0e, -5px -5px 10px #1a1d24",
+                ...styles.paginationDot,
+                backgroundColor:
+                  index === currentIndex
+                    ? "rgb(79, 70, 229)"
+                    : "rgba(255,255,255,0.3)",
               }}
-            >
-              <Filter size={18} />
-              {filter.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Filter Dropdown - Mobile */}
-        {isMobile && (
-          <div
-            style={{
-              position: "relative",
-              marginBottom: "2rem",
-              width: "100%",
-              maxWidth: "300px",
-              margin: "0 auto 2rem",
-            }}
-          >
-            <button
-              onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-              style={{
-                padding: "0.75rem 1.5rem",
-                borderRadius: "50px",
-                border: "none",
-                fontSize: "1rem",
-                fontWeight: 600,
-                cursor: "pointer",
-                transition: "all 0.3s ease",
-                background: "rgba(255, 255, 255, 0.05)",
-                color: "#fff",
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                width: "100%",
-                justifyContent: "space-between",
-                boxShadow: "5px 5px 10px #0a0b0e, -5px -5px 10px #1a1d24",
+              onClick={() => {
+                if (isTransitioning) return;
+                setIsTransitioning(true);
+                setCurrentIndex(index);
+                setTimeout(() => setIsTransitioning(false), 500);
               }}
-            >
-              <span>
-                <Filter size={18} style={{ marginRight: "0.5rem" }} />
-                {filters.find((f) => f.id === activeFilter)?.label}
-              </span>
-              <span
-                style={{
-                  transform: showFilterDropdown
-                    ? "rotate(180deg)"
-                    : "rotate(0)",
-                  transition: "transform 0.3s",
-                }}
-              >
-                ▼
-              </span>
-            </button>
-
-            {showFilterDropdown && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: "100%",
-                  left: 0,
-                  right: 0,
-                  background: "rgba(21, 25, 32, 0.95)",
-                  backdropFilter: "blur(10px)",
-                  borderRadius: "12px",
-                  marginTop: "0.5rem",
-                  padding: "0.5rem",
-                  zIndex: 100,
-                  boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)",
-                  border: "1px solid rgba(255, 255, 255, 0.1)",
-                }}
-              >
-                {filters.map((filter) => (
-                  <button
-                    key={filter.id}
-                    onClick={() => {
-                      setActiveFilter(filter.id);
-                      setShowFilterDropdown(false);
-                    }}
-                    style={{
-                      padding: "0.75rem 1rem",
-                      borderRadius: "8px",
-                      border: "none",
-                      fontSize: "1rem",
-                      fontWeight: 600,
-                      cursor: "pointer",
-                      transition: "all 0.3s ease",
-                      background:
-                        activeFilter === filter.id
-                          ? "rgba(79, 70, 229, 0.2)"
-                          : "transparent",
-                      color: activeFilter === filter.id ? "#4f46e5" : "#d1d5db",
-                      display: "block",
-                      width: "100%",
-                      textAlign: "left",
-                      marginBottom: "0.25rem",
-                    }}
-                  >
-                    {filter.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Projects Grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
-            gap: "2.5rem",
-          }}
-        >
-          {filteredProjects.map((project) => (
-            <div
-              key={project.id}
-              className="project-card"
-              style={{
-                borderRadius: "20px",
-                overflow: "hidden",
-                cursor: "pointer",
-                position: "relative",
-                height: "400px",
-                perspective: "1000px",
-              }}
-              onClick={() => openProjectModal(project)}
-            >
-              <div
-                className="card-inner"
-                style={{
-                  position: "relative",
-                  width: "100%",
-                  height: "100%",
-                  transition: "transform 0.8s",
-                  transformStyle: "preserve-3d",
-                }}
-              >
-                {/* Front of Card */}
-                <div
-                  className="card-front"
-                  style={{
-                    position: "absolute",
-                    width: "100%",
-                    height: "100%",
-                    backfaceVisibility: "hidden",
-                    borderRadius: "20px",
-                    background: "linear-gradient(145deg, #151920, #0D0F13)",
-                    boxShadow:
-                      "10px 10px 20px #0a0b0e, -10px -10px 20px #1a1d24",
-                    display: "flex",
-                    flexDirection: "column",
-                    overflow: "hidden",
-                  }}
-                >
-                  <div
-                    style={{
-                      height: "200px",
-                      overflow: "hidden",
-                      position: "relative",
-                    }}
-                  >
-                    <img
-                      src={project.featureImage}
-                      alt={project.title}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        transition: "transform 0.5s ease",
-                      }}
-                    />
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "1rem",
-                        right: "1rem",
-                        display: "flex",
-                        gap: "0.5rem",
-                      }}
-                    >
-                      {project.category === "web" && (
-                        <span
-                          style={{
-                            background: "rgba(79, 70, 229, 0.8)",
-                            color: "#fff",
-                            padding: "0.3rem 0.8rem",
-                            borderRadius: "20px",
-                            fontSize: "0.8rem",
-                            fontWeight: 500,
-                          }}
-                        >
-                          Web App
-                        </span>
-                      )}
-                      {project.category === "ecommerce" && (
-                        <span
-                          style={{
-                            background: "rgba(236, 72, 153, 0.8)",
-                            color: "#fff",
-                            padding: "0.3rem 0.8rem",
-                            borderRadius: "20px",
-                            fontSize: "0.8rem",
-                            fontWeight: 500,
-                          }}
-                        >
-                          E-Commerce
-                        </span>
-                      )}
-                      {project.category === "ai" && (
-                        <span
-                          style={{
-                            background: "rgba(139, 92, 246, 0.8)",
-                            color: "#fff",
-                            padding: "0.3rem 0.8rem",
-                            borderRadius: "20px",
-                            fontSize: "0.8rem",
-                            fontWeight: 500,
-                          }}
-                        >
-                          AI Integration
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      padding: "1.5rem",
-                      flex: 1,
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <h3
-                      className="card-title"
-                      style={{
-                        fontSize: "1.5rem",
-                        fontWeight: 700,
-                        marginBottom: "0.5rem",
-                        background:
-                          "linear-gradient(to right, #4f46e5, #ec4899)",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                        transition: "all 0.3s ease",
-                      }}
-                    >
-                      {project.title}
-                    </h3>
-                    <p
-                      style={{
-                        color: "#d1d5db",
-                        lineHeight: 1.6,
-                        marginBottom: "1rem",
-                        flex: 1,
-                      }}
-                    >
-                      {project.description}
-                    </p>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
-                    >
-                      <span
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "0.5rem",
-                          color: "#4f46e5",
-                          fontWeight: 500,
-                        }}
-                      >
-                        <Eye size={18} />
-                        View Details
-                      </span>
-                      <div
-                        style={{
-                          display: "flex",
-                          gap: "0.5rem",
-                        }}
-                      >
-                        {project.liveUrl && (
-                          <a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              width: "40px",
-                              height: "40px",
-                              borderRadius: "50%",
-                              background: "rgba(255, 255, 255, 0.1)",
-                              color: "#d1d5db",
-                              transition: "all 0.3s ease",
-                              boxShadow: "3px 3px 6px ",
-                            }}
-                          >
-                            <ExternalLink size={18} />
-                          </a>
-                        )}
-                        {project.githubUrl && (
-                          <a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              width: "40px",
-                              height: "40px",
-                              borderRadius: "50%",
-                              background: "rgba(255, 255, 255, 0.1)",
-                              color: "#d1d5db",
-                              transition: "all 0.3s ease",
-                              boxShadow: "3px 3px 6px ",
-                            }}
-                          >
-                            <Github size={18} />
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Back of Card */}
-                <div
-                  className="card-back"
-                  style={{
-                    position: "absolute",
-                    width: "100%",
-                    height: "100%",
-                    backfaceVisibility: "hidden",
-                    borderRadius: "20px",
-                    background: "linear-gradient(145deg, #151920, #0D0F13)",
-                    boxShadow:
-                      "10px 10px 20px #0a0b0e, -10px -10px 20px #1a1d24",
-                    transform: "rotateY(180deg)",
-                    padding: "1.5rem",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <h3
-                    style={{
-                      fontSize: "1.5rem",
-                      fontWeight: 700,
-                      marginBottom: "1rem",
-                      background: "linear-gradient(to right, #4f46e5, #ec4899)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                    }}
-                  >
-                    Technologies
-                  </h3>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      gap: "0.5rem",
-                      justifyContent: "center",
-                      marginBottom: "1.5rem",
-                    }}
-                  >
-                    {project.technologies.slice(0, 4).map((tech, index) => (
-                      <span
-                        key={index}
-                        style={{
-                          background: "rgba(79, 70, 229, 0.2)",
-                          color: "#fff",
-                          padding: "0.3rem 0.8rem",
-                          borderRadius: "20px",
-                          fontSize: "0.8rem",
-                          border: "1px solid rgba(79, 70, 229, 0.5)",
-                        }}
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                      color: "#4f46e5",
-                      fontWeight: 500,
-                    }}
-                  >
-                    <Eye size={18} />
-                    Click to view project details
-                  </div>
-                </div>
-              </div>
-            </div>
+            />
           ))}
         </div>
       </div>
 
-      {/* Project Modal */}
-      {selectedProject && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: "rgba(0, 0, 0, 0.9)",
-            display: "flex",
-            alignItems: isMobile ? "flex-start" : "center",
-            justifyContent: "center",
-            zIndex: 1000,
-            padding: isMobile ? "0" : "1rem",
-            backdropFilter: "blur(10px)",
-            overflowY: "auto",
-            WebkitOverflowScrolling: "touch", // For smooth scrolling on iOS
-          }}
-          onClick={closeProjectModal}
-        >
-          <div
-            style={{
-              background: "linear-gradient(135deg, #151920 0%, #0D0F13 100%)",
-              borderRadius: isMobile ? "0" : "20px",
-              maxWidth: "1200px",
-              width: "100%",
-              maxHeight: isMobile ? "100%" : "90vh",
-              minHeight: isMobile ? "100vh" : "auto",
-              overflow: "hidden",
-              position: "relative",
-              border: isMobile ? "none" : "1px solid rgba(255, 255, 255, 0.1)",
-              boxShadow: "0 25px 50px rgba(0, 0, 0, 0.5)",
-              display: "flex",
-              flexDirection: isMobile ? "column" : "row",
-            }}
-            onClick={(e) => e.stopPropagation()}
+      {/* Professional Popup Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={styles.modalBackdrop}
+            onClick={() => setSelectedProject(null)}
           >
-            <button
-              onClick={closeProjectModal}
-              style={{
-                position: "absolute",
-                top: isMobile ? "1.5rem" : "1rem",
-                right: isMobile ? "1.5rem" : "1rem",
-                background: "rgba(255, 255, 255, 0.1)",
-                border: "none",
-                borderRadius: "50%",
-                width: "40px",
-                height: "40px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#fff",
-                cursor: "pointer",
-                zIndex: 10,
-                backdropFilter: "blur(10px)",
-                boxShadow: "3px 3px 6px #0a0b0e, -3px -3px 6px #1a1d24",
-              }}
+            <motion.div
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 100, opacity: 0 }}
+              className="hide-scrollbar"
+              style={styles.modalContent}
+              onClick={(e) => e.stopPropagation()}
             >
-              <X size={24} />
-            </button>
-
-            <div
-              style={{
-                display: "flex",
-                flexDirection: isMobile ? "column" : "row",
-                width: "100%",
-                height: isMobile ? "auto" : "100%",
-              }}
-            >
-              {/* Image Gallery Section */}
-              <div
-                style={{
-                  flex: isMobile ? "0 0 auto" : "0 0 55%",
-                  position: "relative",
-                  overflow: "hidden",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  background: "#000",
-                  height: isMobile ? "40vh" : "auto",
-                  minHeight: isMobile ? "300px" : "auto",
-                }}
+              <button
+                style={styles.closeBtn}
+                onClick={() => setSelectedProject(null)}
               >
-                <img
-                  src={selectedProject.images[currentImageIndex]}
-                  alt={`${selectedProject.title} - Image ${currentImageIndex + 1}`}
-                  style={{
-                    width: "100%",
-                    height: isMobile ? "100%" : "100%",
-                    objectFit: "contain",
-                    maxHeight: isMobile ? "40vh" : "80vh",
-                  }}
-                />
+                <X size={24} />
+              </button>
 
-                {/* Navigation Arrows */}
-                {selectedProject.images.length > 1 && (
-                  <>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        prevImage();
-                      }}
-                      style={{
-                        position: "absolute",
-                        left: "1rem",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        background: "rgba(0, 0, 0, 0.5)",
-                        border: "none",
-                        borderRadius: "50%",
-                        width: "40px",
-                        height: "40px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: "#fff",
-                        cursor: "pointer",
-                        zIndex: 10,
-                        backdropFilter: "blur(5px)",
-                      }}
-                    >
-                      <ChevronLeft size={24} />
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        nextImage();
-                      }}
-                      style={{
-                        position: "absolute",
-                        right: "1rem",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        background: "rgba(0, 0, 0, 0.5)",
-                        border: "none",
-                        borderRadius: "50%",
-                        width: "40px",
-                        height: "40px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: "white",
-                        cursor: "pointer",
-                        zIndex: 10,
-                        backdropFilter: "blur(5px)",
-                      }}
-                    >
-                      <ChevronRight size={24} />
-                    </button>
-                  </>
-                )}
-
-                {/* Image Indicators */}
-                <div
-                  style={{
-                    position: "absolute",
-                    bottom: "1rem",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    display: "flex",
-                    gap: "0.5rem",
-                    zIndex: 10,
-                  }}
-                >
-                  {selectedProject.images.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setCurrentImageIndex(index);
-                      }}
-                      style={{
-                        width: "10px",
-                        height: "10px",
-                        borderRadius: "50%",
-                        border: "none",
-                        background:
-                          index === currentImageIndex
-                            ? "#4f46e5"
-                            : "rgba(255, 255, 255, 0.5)",
-                        cursor: "pointer",
-                      }}
-                    />
-                  ))}
+              <div style={styles.modalGrid}>
+                <div style={styles.modalMedia}>
+                  <img
+                    src={selectedProject.image}
+                    alt={selectedProject.title}
+                    style={styles.modalImg}
+                  />
                 </div>
-              </div>
 
-              {/* Project Details Section - Now scrollable on mobile */}
-              <div
-                style={{
-                  flex: isMobile ? "1" : "0 0 45%",
-                  padding: isMobile ? "1.5rem 1.5rem 3rem 1.5rem" : "2rem",
-                  overflowY: "auto",
-                  display: "flex",
-                  flexDirection: "column",
-                  WebkitOverflowScrolling: "touch", // For smooth scrolling on iOS
-                  maxHeight: isMobile ? "60vh" : "100%",
-                }}
-              >
-                <h2
-                  style={{
-                    fontSize: isMobile ? "1.5rem" : "2rem",
-                    fontWeight: 700,
-                    marginBottom: "1rem",
-                    background: "linear-gradient(to right, #4f46e5, #ec4899)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                  }}
-                >
-                  {selectedProject.title}
-                </h2>
+                <div style={styles.modalDetails}>
+                  <span style={styles.modalCategory}>
+                    {selectedProject.category}
+                  </span>
+                  <h2 style={styles.modalTitle}>{selectedProject.title}</h2>
+                  <p style={styles.modalDesc}>{selectedProject.description}</p>
 
-                <p
-                  style={{
-                    color: "#d1d5db",
-                    lineHeight: 1.6,
-                    marginBottom: "1.5rem",
-                  }}
-                >
-                  {selectedProject.fullDescription}
-                </p>
-
-                <div
-                  style={{
-                    marginBottom: "2rem",
-                  }}
-                >
-                  <h3
-                    style={{
-                      fontSize: "1.3rem",
-                      marginBottom: "1rem",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                    }}
-                  >
-                    <Code size={20} />
-                    Technologies Used
-                  </h3>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      gap: "0.5rem",
-                    }}
-                  >
-                    {selectedProject.technologies.map((tech, index) => (
-                      <span
-                        key={index}
-                        style={{
-                          background: "rgba(79, 70, 229, 0.2)",
-                          color: "#fff",
-                          padding: "0.5rem 1rem",
-                          borderRadius: "20px",
-                          fontSize: "0.9rem",
-                          border: "1px solid rgba(79, 70, 229, 0.5)",
-                        }}
-                      >
+                  <div style={styles.sectionTitle}>
+                    <Layers size={16} color="rgb(79, 70, 229)" /> Technology
+                    Used
+                  </div>
+                  <div style={styles.tagContainer}>
+                    {selectedProject.techStack.map((tech) => (
+                      <span key={tech} style={styles.tag}>
                         {tech}
                       </span>
                     ))}
                   </div>
-                </div>
 
-                <div
-                  style={{
-                    marginBottom: "2rem",
-                  }}
-                >
-                  <h3
-                    style={{
-                      fontSize: "1.3rem",
-                      marginBottom: "1rem",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                    }}
-                  >
-                    <Zap size={20} />
-                    Key Features
-                  </h3>
-                  <ul
-                    style={{
-                      listStyle: "none",
-                      padding: 0,
-                    }}
-                  >
-                    {selectedProject.features.map((feature, index) => (
-                      <li
-                        key={index}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          marginBottom: "0.5rem",
-                          color: "#d1d5db",
-                        }}
-                      >
-                        <span
-                          style={{
-                            color: "#4f46e5",
-                            marginRight: "0.5rem",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          •
-                        </span>
-                        {feature}
+                  <div style={styles.sectionTitle}>
+                    <CheckCircle2 size={16} color="rgb(236, 72, 153)" /> Key
+                    Features
+                  </div>
+                  <ul style={styles.featureList}>
+                    {selectedProject.features.map((feat) => (
+                      <li key={feat} style={{ marginBottom: "8px" }}>
+                        {feat}
                       </li>
                     ))}
                   </ul>
-                </div>
 
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "1rem",
-                    marginTop: "auto",
-                    paddingTop: "1rem",
-                    flexDirection: isMobile ? "column" : "row",
-                  }}
-                >
-                  {selectedProject.liveUrl && (
+                  <div style={styles.btnGroup}>
                     <a
-                      href={selectedProject.liveUrl}
+                      href={selectedProject.liveLink}
                       target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        padding: "0.75rem 1.5rem",
-                        borderRadius: "50px",
-                        border: "none",
-                        fontSize: "1rem",
-                        fontWeight: 600,
-                        cursor: "pointer",
-                        transition: "all 0.3s ease",
-                        background: "linear-gradient(145deg, #4f46e5, #6366f1)",
-                        color: "#fff",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: "0.5rem",
-                        textDecoration: "none",
-                        boxShadow:
-                          "5px 5px 10px #0a0b0e, -5px -5px 10px #1a1d24",
-                      }}
+                      rel="noreferrer"
+                      style={styles.primaryBtn}
                     >
-                      <ExternalLink size={18} />
-                      Live Demo
+                      <ExternalLink size={18} /> Live Demo
                     </a>
-                  )}
-                  {selectedProject.githubUrl && (
-                    <a
-                      href={selectedProject.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        padding: "0.75rem 1.5rem",
-                        borderRadius: "50px",
-                        border: "1px solid rgba(255, 255, 255, 0.2)",
-                        fontSize: "1rem",
-                        fontWeight: 600,
-                        cursor: "pointer",
-                        transition: "all 0.3s ease",
-                        background: "rgba(255, 255, 255, 0.05)",
-                        color: "#fff",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: "0.5rem",
-                        textDecoration: "none",
-                        boxShadow:
-                          "5px 5px 10px #0a0b0e, -5px -5px 10px #1a1d24",
-                      }}
-                    >
-                      <Github size={18} />
-                      View Code
-                    </a>
-                  )}
+                    {selectedProject.githubLink && (
+                      <a
+                        href={selectedProject.githubLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={styles.secondaryBtn}
+                      >
+                        <Github size={18} /> GitHub
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <style>
-        {`
-          @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          
-          section {
-            animation: fadeIn 0.8s ease-out;
-          }
-          
-          .project-card:hover .card-inner {
-            transform: rotateY(180deg);
-          }
-          
-          .card-title {
-            position: relative;
-            display: inline-block;
-          }
-          
-          .card-title::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(to right, #4f46e5, #ec4899);
-            transition: width 0.3s ease;
-          }
-          
-          .project-card:hover .card-title::after {
-            width: 100%;
-          }
-          
-          @media (max-width: 768px) {
-            .project-card .card-inner {
-              transform: none !important;
-            }
-            
-            .project-card .card-back {
-              display: none !important;
-            }
-          }
-        `}
-      </style>
-    </section>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
-};
+}
 
-export default ProjectsPage;
+const styles = {
+  page: {
+    background: "#050505",
+    minHeight: "100vh",
+    padding: "80px 20px",
+    color: "#fff",
+    fontFamily: "'Inter', sans-serif",
+  },
+  header: {
+    textAlign: "center",
+    marginBottom: "60px",
+  },
+  title: {
+    fontSize: "clamp(40px, 6vw, 72px)",
+    fontWeight: "900",
+    letterSpacing: "-2px",
+    margin: "0",
+    background:
+      "linear-gradient(to right, rgb(79, 70, 229), rgb(236, 72, 153))",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+  },
+  subtitle: {
+    color: "#777",
+    fontSize: "18px",
+    marginTop: "15px",
+    maxWidth: "600px",
+    marginInline: "auto",
+  },
+  carouselContainer: {
+    maxWidth: "1400px",
+    margin: "0 auto",
+    position: "relative",
+    padding: "40px 0 80px",
+    overflow: "hidden",
+  },
+  cardsWrapper: {
+    position: "relative",
+    height: "500px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  card: {
+    position: "absolute",
+    width: "360px",
+    height: "500px",
+    borderRadius: "30px",
+    overflow: "hidden",
+    cursor: "pointer",
+    background: "#111",
+    boxShadow:
+      "0 20px 40px -10px rgba(79, 70, 229, 0.3), 0 20px 40px -10px rgba(236, 72, 153, 0.3)",
+    border: "1px solid rgba(255,255,255,0.05)",
+    left: "50%",
+    marginLeft: "-180px", // Half of width to center
+  },
+  featuredBadge: {
+    position: "absolute",
+    top: "20px",
+    left: "20px",
+    zIndex: 5,
+    background:
+      "linear-gradient(to right, rgb(79, 70, 229), rgb(236, 72, 153))",
+    padding: "6px 14px",
+    borderRadius: "100px",
+    fontSize: "12px",
+    fontWeight: "700",
+    display: "flex",
+    alignItems: "center",
+    gap: "5px",
+    boxShadow: "0 4px 15px rgba(0,0,0,0.3)",
+  },
+  cardImage: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  },
+  cardOverlay: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: "40px 30px",
+    background:
+      "linear-gradient(to top, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.6) 50%, transparent)",
+    display: "flex",
+    flexDirection: "column",
+    gap: "5px",
+  },
+  cardCategory: {
+    fontSize: "12px",
+    textTransform: "uppercase",
+    letterSpacing: "2px",
+    color: "#aaa",
+    fontWeight: "500",
+  },
+  cardTitle: {
+    fontSize: "28px",
+    margin: "0",
+    fontWeight: "800",
+  },
+  viewBtn: {
+    marginTop: "15px",
+    background: "rgba(255,255,255,1)",
+    border: "none",
+    color: "#000",
+    padding: "10px 20px",
+    borderRadius: "12px",
+    fontSize: "14px",
+    fontWeight: "700",
+    width: "fit-content",
+    cursor: "pointer",
+  },
+  navButton: {
+    position: "absolute",
+    top: "50%",
+    transform: "translateY(-50%)",
+    width: "50px",
+    height: "50px",
+    borderRadius: "50%",
+    background: "rgba(255,255,255,0.1)",
+    border: "1px solid rgba(255,255,255,0.2)",
+    color: "#fff",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    zIndex: 10,
+    transition: "all 0.3s ease",
+    backdropFilter: "blur(10px)",
+    ":hover": {
+      background: "rgba(255,255,255,0.2)",
+    },
+    ":disabled": {
+      opacity: 0.3,
+      cursor: "not-allowed",
+    },
+  },
+  navButtonLeft: {
+    left: "20px",
+  },
+  navButtonRight: {
+    right: "20px",
+  },
+  pagination: {
+    position: "absolute",
+    bottom: "20px",
+    left: "50%",
+    transform: "translateX(-50%)",
+    display: "flex",
+    gap: "10px",
+    zIndex: 10,
+  },
+  paginationDot: {
+    width: "10px",
+    height: "10px",
+    borderRadius: "50%",
+    border: "none",
+    cursor: "pointer",
+    padding: 0,
+    transition: "all 0.3s ease",
+  },
+
+  // Modal Styles (unchanged)
+  modalBackdrop: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: "rgba(0,0,0,0.9)",
+    backdropFilter: "blur(12px)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1000,
+    padding: "20px",
+  },
+  modalContent: {
+    background: "#0a0a0a",
+    width: "100%",
+    maxWidth: "1000px",
+    maxHeight: "90vh",
+    borderRadius: "32px",
+    overflowY: "auto",
+    position: "relative",
+    border: "1px solid rgba(255,255,255,0.1)",
+    boxShadow: "0 0 100px rgba(79, 70, 229, 0.15)",
+  },
+  closeBtn: {
+    position: "absolute",
+    top: "25px",
+    right: "25px",
+    background: "rgba(255,255,255,0.05)",
+    border: "1px solid rgba(255,255,255,0.1)",
+    color: "#fff",
+    width: "45px",
+    height: "45px",
+    borderRadius: "50%",
+    cursor: "pointer",
+    zIndex: 10,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modalGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))",
+  },
+  modalMedia: {
+    width: "100%",
+    height: "100%",
+    minHeight: "400px",
+  },
+  modalImg: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  },
+  modalDetails: {
+    padding: "50px",
+  },
+  modalCategory: {
+    color: "red",
+    fontSize: "14px",
+    fontWeight: "700",
+    letterSpacing: "1px",
+    textTransform: "uppercase",
+  },
+  modalTitle: {
+    fontSize: "35px",
+    margin: "15px 0",
+    fontWeight: "600",
+    background:
+      "linear-gradient(to right, rgb(79, 70, 229), rgb(236, 72, 153))",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+  },
+  modalDesc: {
+    color: "#999",
+    lineHeight: "1.8",
+    fontSize: "16px",
+    marginBottom: "30px",
+  },
+  sectionTitle: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    fontSize: "16px",
+    fontWeight: "700",
+    marginBottom: "15px",
+    color: "#fff",
+  },
+  tagContainer: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "10px",
+    marginBottom: "30px",
+  },
+  tag: {
+    background: "rgba(255,255,255,0.03)",
+    padding: "8px 16px",
+    borderRadius: "10px",
+    fontSize: "13px",
+    color: "#eee",
+    border: "1px solid rgba(255,255,255,0.1)",
+  },
+  featureList: {
+    paddingLeft: "5px",
+    color: "#999",
+    fontSize: "15px",
+    marginBottom: "40px",
+    listStyle: "none",
+  },
+  btnGroup: {
+    display: "flex",
+    gap: "15px",
+    flexWrap: "wrap",
+  },
+  primaryBtn: {
+    background:
+      "linear-gradient(to right, rgb(79, 70, 229), rgb(236, 72, 153))",
+    color: "#000",
+    padding: "14px 28px",
+    borderRadius: "14px",
+    textDecoration: "none",
+    fontWeight: "600",
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    transition: "0.3s ease",
+  },
+  secondaryBtn: {
+    background: "rgba(255,255,255,0.05)",
+    color: "#fff",
+    padding: "14px 28px",
+    borderRadius: "14px",
+    textDecoration: "none",
+    fontWeight: "600",
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    border: "1px solid rgba(255,255,255,0.1)",
+    transition: "0.3s ease",
+  },
+};

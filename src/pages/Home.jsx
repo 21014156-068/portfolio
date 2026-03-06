@@ -115,7 +115,7 @@ const HomePage = () => {
   return (
     <div
       style={{
-        background: "linear-gradient(135deg, #0D0F13 0%, #151920 100%)",
+        background: "#050505",
         color: "#fff",
         fontFamily: "'Inter', sans-serif",
         minHeight: "100vh",

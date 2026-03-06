@@ -1,15 +1,26 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Mail, Phone, MapPin, Send, Clock, MessageSquare, Linkedin, Github, Twitter, CheckCircle } from 'lucide-react';
-import emailjs from '@emailjs/browser';
+import React, { useState, useRef, useEffect } from "react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Send,
+  Clock,
+  MessageSquare,
+  Linkedin,
+  Github,
+  Twitter,
+  CheckCircle,
+} from "lucide-react";
+import emailjs from "@emailjs/browser";
 
 const ContactPage = () => {
   const form = useRef();
   const popupRef = useRef();
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
   const [isSending, setIsSending] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
@@ -17,106 +28,117 @@ const ContactPage = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSending(true);
-    
+
     // Initialize EmailJS with your public key
     emailjs.init("xua0sEn_dVEK-NFxZ");
-    
+
     // Use sendForm instead of send for better form handling
-    emailjs.sendForm('service_pp84n05', 'template_5hepbg3', form.current, {
-      publicKey: "xua0sEn_dVEK-NFxZ",
-    })
-    .then((result) => {
-        console.log('Email successfully sent!', result.text);
-        setShowSuccessPopup(true);
-        setFormData({
-          name: '',
-          email: '',
-          subject: '',
-          message: ''
-        });
-        setIsSending(false);
-    }, (error) => {
-        console.log('Failed to send email:', error.text);
-        alert('Failed to send the message, please try again.');
-        setIsSending(false);
-    });
+    emailjs
+      .sendForm("service_pp84n05", "template_5hepbg3", form.current, {
+        publicKey: "xua0sEn_dVEK-NFxZ",
+      })
+      .then(
+        (result) => {
+          console.log("Email successfully sent!", result.text);
+          setShowSuccessPopup(true);
+          setFormData({
+            name: "",
+            email: "",
+            subject: "",
+            message: "",
+          });
+          setIsSending(false);
+        },
+        (error) => {
+          console.log("Failed to send email:", error.text);
+          alert("Failed to send the message, please try again.");
+          setIsSending(false);
+        },
+      );
   };
 
   // Scroll to popup when it appears
   useEffect(() => {
     if (showSuccessPopup && popupRef.current) {
-      popupRef.current.scrollIntoView({ behavior: 'smooth' });
-      
+      popupRef.current.scrollIntoView({ behavior: "smooth" });
+
       // Auto-hide the popup after 5 seconds
       const timer = setTimeout(() => {
         setShowSuccessPopup(false);
       }, 5000);
-      
+
       return () => clearTimeout(timer);
     }
   }, [showSuccessPopup]);
-useEffect(() => {
+  useEffect(() => {
     if (showSuccessPopup && popupRef.current) {
       const headerOffset = 80; // Approximate height of your header + some padding
       const elementPosition = popupRef.current.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      const offsetPosition =
+        elementPosition + window.pageYOffset - headerOffset;
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: "smooth"
+        behavior: "smooth",
       });
-      
+
       // Auto-hide the popup after 5 seconds
       const timer = setTimeout(() => {
         setShowSuccessPopup(false);
       }, 5000);
-      
+
       return () => clearTimeout(timer);
     }
   }, [showSuccessPopup]);
   return (
     <section
       style={{
-        background: 'linear-gradient(135deg, #0D0F13 0%, #151920 100%)',
-        color: '#fff',
-        padding: '4rem 2rem',
+        background: "#050505",
+        color: "#fff",
+        padding: "4rem 2rem",
         fontFamily: "'Inter', sans-serif",
-        minHeight: '100vh'
+        minHeight: "100vh",
       }}
     >
       {/* Success Popup */}
       {showSuccessPopup && (
-        <div 
+        <div
           ref={popupRef}
           className="success-popup"
           style={{
-            background: '#151a22',
-            borderRadius: '20px',
-            padding: '2rem',
-            marginBottom: '2rem',
-            textAlign: 'center',
-            boxShadow: '9px 9px 24px #0b0c10, -9px -9px 24px #232838',
-            border: '1px solid rgba(255,255,255,0.08)',
-            animation: 'fadeIn 0.5s ease'
+            background: "#151a22",
+            borderRadius: "20px",
+            padding: "2rem",
+            marginBottom: "2rem",
+            textAlign: "center",
+            boxShadow: "9px 9px 24px #0b0c10, -9px -9px 24px #232838",
+            border: "1px solid rgba(255,255,255,0.08)",
+            animation: "fadeIn 0.5s ease",
           }}
         >
-          <CheckCircle size={48} color="#4f46e5" style={{ marginBottom: '1rem' }} />
-          <h3 style={{ 
-            marginBottom: '0.5rem',
-            background: 'linear-gradient(to right, #4f46e5, #ec4899)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
-          }}>
+          <CheckCircle
+            size={48}
+            color="#4f46e5"
+            style={{ marginBottom: "1rem" }}
+          />
+          <h3
+            style={{
+              marginBottom: "0.5rem",
+              background: "linear-gradient(to right, #4f46e5, #ec4899)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
             Message Sent Successfully!
           </h3>
-          <p style={{ color: '#d1d5db', margin: 0 }}>
+          <p style={{ color: "#d1d5db", margin: 0 }}>
             Thank you for reaching out. I'll get back to you soon.
           </p>
         </div>
@@ -124,62 +146,63 @@ useEffect(() => {
 
       <div
         style={{
-          maxWidth: '1200px',
-          margin: '0 auto'
+          maxWidth: "1200px",
+          margin: "0 auto",
         }}
       >
         {/* Page Header */}
         <div
           style={{
-            textAlign: 'center',
-            marginBottom: '4rem'
+            textAlign: "center",
+            marginBottom: "4rem",
           }}
         >
           <h1
             style={{
-              fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+              fontSize: "clamp(2rem, 5vw, 3.5rem)",
               fontWeight: 700,
-              marginBottom: '1rem',
-              background: 'linear-gradient(to right, #4f46e5, #ec4899)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
+              marginBottom: "1rem",
+              background: "linear-gradient(to right, #4f46e5, #ec4899)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
             }}
           >
             Get In Touch
           </h1>
           <p
             style={{
-              fontSize: '1.2rem',
-              color: '#d1d5db',
-              maxWidth: '600px',
-              margin: '0 auto',
-              lineHeight: 1.6
+              fontSize: "1.2rem",
+              color: "#d1d5db",
+              maxWidth: "600px",
+              margin: "0 auto",
+              lineHeight: 1.6,
             }}
           >
-            Have a project in mind or want to discuss opportunities? I'd love to hear from you.
+            Have a project in mind or want to discuss opportunities? I'd love to
+            hear from you.
           </p>
         </div>
 
         {/* Contact Content */}
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '3rem'
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            gap: "3rem",
           }}
         >
           {/* Contact Information */}
           <div>
             <h2
               style={{
-                fontSize: '1.8rem',
-                marginBottom: '1.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                background: 'linear-gradient(to right, #4f46e5, #ec4899)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
+                fontSize: "1.8rem",
+                marginBottom: "1.5rem",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                background: "linear-gradient(to right, #4f46e5, #ec4899)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
               }}
             >
               <MessageSquare size={24} />
@@ -187,12 +210,14 @@ useEffect(() => {
             </h2>
             <p
               style={{
-                color: '#d1d5db',
+                color: "#d1d5db",
                 lineHeight: 1.6,
-                marginBottom: '2rem'
+                marginBottom: "2rem",
               }}
             >
-              I'm currently available for freelance work and full-time opportunities. If you have a project that you want to get started or think you need my help with something, then get in touch.
+              I'm currently available for freelance work and full-time
+              opportunities. If you have a project that you want to get started
+              or think you need my help with something, then get in touch.
             </p>
 
             {/* Contact Details - Neumorphic Cards */}
@@ -202,10 +227,15 @@ useEffect(() => {
                   <Mail size={24} />
                 </div>
                 <h3 className="neumorph-contact-title">Email</h3>
-                <p className="neumorph-contact-text">abdullahawan7979@gmail.com</p>
+                <p className="neumorph-contact-text">
+                  abdullahawan7979@gmail.com
+                </p>
               </div>
 
-              <div className="neumorph-card neumorph-animate" style={{ animationDelay: '0.1s' }}>
+              <div
+                className="neumorph-card neumorph-animate"
+                style={{ animationDelay: "0.1s" }}
+              >
                 <div className="neumorph-icon-wrapper">
                   <Phone size={24} />
                 </div>
@@ -213,7 +243,10 @@ useEffect(() => {
                 <p className="neumorph-contact-text">(+92) 3177600992</p>
               </div>
 
-              <div className="neumorph-card neumorph-animate" style={{ animationDelay: '0.2s' }}>
+              <div
+                className="neumorph-card neumorph-animate"
+                style={{ animationDelay: "0.2s" }}
+              >
                 <div className="neumorph-icon-wrapper">
                   <MapPin size={24} />
                 </div>
@@ -221,24 +254,29 @@ useEffect(() => {
                 <p className="neumorph-contact-text">Gujranwala, Pakistan</p>
               </div>
 
-              <div className="neumorph-card neumorph-animate" style={{ animationDelay: '0.3s' }}>
+              <div
+                className="neumorph-card neumorph-animate"
+                style={{ animationDelay: "0.3s" }}
+              >
                 <div className="neumorph-icon-wrapper">
                   <Clock size={24} />
                 </div>
                 <h3 className="neumorph-contact-title">Availability</h3>
-                <p className="neumorph-contact-text">Available for new projects</p>
+                <p className="neumorph-contact-text">
+                  Available for new projects
+                </p>
               </div>
             </div>
 
             {/* Social Links */}
-            <div style={{ marginTop: '2rem' }}>
+            <div style={{ marginTop: "2rem" }}>
               <h3
                 style={{
-                  fontSize: '1.3rem',
-                  marginBottom: '1rem',
-                  background: 'linear-gradient(to right, #4f46e5, #ec4899)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent'
+                  fontSize: "1.3rem",
+                  marginBottom: "1rem",
+                  background: "linear-gradient(to right, #4f46e5, #ec4899)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
                 }}
               >
                 Follow Me
@@ -260,8 +298,7 @@ useEffect(() => {
                 >
                   <Github size={20} />
                 </a>
-                
-                
+
                 <a
                   href="mailto:abdullahawan7979@gmail.com"
                   className="neumorph-social-link"
@@ -276,24 +313,20 @@ useEffect(() => {
           <div>
             <h2
               style={{
-                fontSize: '1.8rem',
-                marginBottom: '1.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                background: 'linear-gradient(to right, #4f46e5, #ec4899)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
+                fontSize: "1.8rem",
+                marginBottom: "1.5rem",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                background: "linear-gradient(to right, #4f46e5, #ec4899)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
               }}
             >
               <Send size={24} />
               Send a Message
             </h2>
-            <form
-              ref={form}
-              onSubmit={handleSubmit}
-              className="neumorph-form"
-            >
+            <form ref={form} onSubmit={handleSubmit} className="neumorph-form">
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="name">Your Name</label>
@@ -349,7 +382,7 @@ useEffect(() => {
                 className="neumorph-button"
                 disabled={isSending}
               >
-                {isSending ? 'Sending...' : 'Send Message'}
+                {isSending ? "Sending..." : "Send Message"}
                 <Send size={18} />
               </button>
             </form>
