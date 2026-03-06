@@ -476,7 +476,7 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
     zIndex: 1000,
-    padding: "20px",
+    padding: "10px",
   },
   modalContent: {
     background: "#0a0a0a",
