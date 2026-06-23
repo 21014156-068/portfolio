@@ -99,8 +99,8 @@ export const projects = [
   {
     id: 2,
     title: "Paswal Tours LTD",
-    category: "Travel Agency Website",
-    isFeatured: true,
+    category: "Wordpress Website",
+    isFeatured: false,
     image: "/pas1.png",
     description:
       "A comprehensive online travel and visa services platform offering multi-entry and single-entry visas, flight bookings, and Pakistan NADRA services including ID card and passport issuance and renewal.",
@@ -151,6 +151,32 @@ export const projects = [
     ],
     liveLink: "https://abdullahjs.dev/",
     githubLink: "https://github.com/21014156-068/portfolio/",
+  },
+  {
+    id: 5,
+    title: "EyeCon",
+    category: "MERN Stack",
+    isFeatured: true,
+    image: "/cli.png",
+    description:
+      "A full-stack MERN clinic management system designed for modern ophthalmology clinics. Features a high-converting patient portal with a multi-step smart booking wizard and dynamic service catalog. Includes a secure admin dashboard (CMS) for managing appointments, doctors, content, and site settings, optimized with an automated database cleaning system.",
+    techStack: [
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Context API",
+      "JWT Auth",
+    ],
+    features: [
+      "Smart multi-step appointment booking wizard",
+      "Secure Admin Dashboard (Custom CMS)",
+      "Dynamic doctor & service catalog filtering",
+      "Auto-cleaning database via MongoDB TTL",
+      "Performance-optimized single-request data fetching",
+    ],
+    liveLink: "https://eye-clinic-three.vercel.app/",
+    githubLink: "https://github.com/21014156-068/Eye-Clinic",
   },
 ];
 
