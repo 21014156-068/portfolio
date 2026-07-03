@@ -17,6 +17,13 @@ import { Link } from "react-router-dom";
 // Sample projects data
 const projects = [
   {
+    title: "EyeCon",
+    description:
+      "A full-stack MERN clinic management system designed for modern ophthalmology clinics",
+    tags: ["React", "Node.js", "Express.js", "MongoDB", "AI", "CNN"],
+    image: "/cli.png",
+  },
+  {
     title: "Paswal Tours LTD",
     description:
       "A travel agency website built with WordPress, featuring custom themes and SEO optimization.",
@@ -30,13 +37,20 @@ const projects = [
     tags: ["React", "Node.js", "Express.js", "MongoDB", "AI", "CNN"],
     image: "/Main.png",
   },
+  {
+    title: "Alfattah Vibes",
+    description:
+      "A comprehensive eCommerce platform built with wordpress woocommerce for local business owner to sell their products online.",
+    tags: ["Wordpress", "WooCommerce", "PHP", "SEO", "Elementor"],
+    image: "/p3.png",
+  },
 
   {
-    title: "Portfolio Website Builder",
-    description: "Drag-and-drop portfolio website builder for developers",
+    title: "Portfolio Website",
+    description:
+      "A professional developer portfolio built with React, TailwindCSS, Framer Motion, and Three.js.",
     tags: ["React", "Firebase", "Framer Motion"],
-    image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    image: "/p3.png",
   },
 ];
 
