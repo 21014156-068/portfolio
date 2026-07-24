@@ -165,9 +165,9 @@ export default function ProjectsPage() {
                 <div style={styles.cardOverlay}>
                   <span style={styles.cardCategory}>{project.category}</span>
                   <h3 style={styles.cardTitle}>{project.title}</h3>
-                  {position.isCenter && (
+                  {/* {position.isCenter && (
                     <button style={styles.viewBtn}>View Project Details</button>
-                  )}
+                  )} */}
                 </div>
               </motion.div>
             );
@@ -392,9 +392,9 @@ const styles = {
   cardCategory: {
     fontSize: "12px",
     textTransform: "uppercase",
-    letterSpacing: "2px",
-    color: "#aaa",
-    fontWeight: "500",
+    letterSpacing: "1px",
+    color: "red",
+    fontWeight: "900",
   },
   cardTitle: {
     fontSize: "28px",

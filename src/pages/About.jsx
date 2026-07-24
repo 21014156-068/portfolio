@@ -6,10 +6,63 @@ import {
   BookOpen,
   Code2,
   Linkedin,
+  Phone,
+  Globe,
+  Github,
 } from "lucide-react";
-import { skillGroups } from "../components/data";
 
 const AboutPage = () => {
+  // Updated skill groups based on CV
+  const skillGroups = [
+    {
+      title: "Languages",
+      icon: <Code2 size={22} />,
+      skills: ["JavaScript (ES6+)", "TypeScript", "Dart"],
+    },
+    {
+      title: "Frontend",
+      icon: <Code2 size={22} />,
+      skills: ["React.js", "Next.js", "HTML5", "CSS3"],
+    },
+    {
+      title: "Backend",
+      icon: <Code2 size={22} />,
+      skills: ["Node.js", "Express.js", "NestJS"],
+    },
+    {
+      title: "Mobile",
+      icon: <Code2 size={22} />,
+      skills: ["Flutter (BLoC/Cubit, Repository Pattern)"],
+    },
+    {
+      title: "Databases",
+      icon: <Code2 size={22} />,
+      skills: ["MongoDB", "PostgreSQL"],
+    },
+    {
+      title: "API & Auth",
+      icon: <Code2 size={22} />,
+      skills: ["REST APIs", "JWT", "OAuth (Google)"],
+    },
+    {
+      title: "Other",
+      icon: <Code2 size={22} />,
+      skills: ["WordPress", "WooCommerce"],
+    },
+    {
+      title: "Tools & Platforms",
+      icon: <Code2 size={22} />,
+      skills: [
+        "Git & GitHub",
+        "Cloudinary",
+        "AI‑assisted development",
+        "Postman",
+        "VS Code",
+        "Android Studio",
+      ],
+    },
+  ];
+
   return (
     <section
       style={{
@@ -119,8 +172,6 @@ const AboutPage = () => {
                 style={{ animationDelay: "0s" }}
               >
                 <h3 className="neumorph-skill-title">
-                  {" "}
-                  {/* Changed to skill-title for consistent styling */}
                   <Award size={24} />
                   <span
                     className="neumorph-text-animate"
@@ -137,7 +188,7 @@ const AboutPage = () => {
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    gap: "1rem",
+                    gap: "0.75rem",
                   }}
                 >
                   <div className="neumorph-row">
@@ -153,15 +204,33 @@ const AboutPage = () => {
                     </span>
                   </div>
                   <div className="neumorph-row">
+                    <Phone size={20} color="#4f46e5" />
+                    <span className="neumorph-text-animate">
+                      (+92) 3177600992
+                    </span>
+                  </div>
+                  <div className="neumorph-row">
                     <Mail size={20} color="#4f46e5" />
                     <span className="neumorph-text-animate">
-                      abdullahawan7979@gmail.com
+                      abdullahafzaal7979@gmail.com
+                    </span>
+                  </div>
+                  <div className="neumorph-row">
+                    <Globe size={20} color="#4f46e5" />
+                    <span className="neumorph-text-animate">
+                      www.abdullahjs.dev
                     </span>
                   </div>
                   <div className="neumorph-row">
                     <Linkedin size={20} color="#4f46e5" />
                     <span className="neumorph-text-animate">
-                      https://www.linkedin.com/in/abdullahafzaal79
+                      linkedin.com/in/abdullahafzaal79
+                    </span>
+                  </div>
+                  <div className="neumorph-row">
+                    <Github size={20} color="#4f46e5" />
+                    <span className="neumorph-text-animate">
+                      github.com/21014156-068
                     </span>
                   </div>
                 </div>
@@ -171,11 +240,7 @@ const AboutPage = () => {
                 className="neumorph-card neumorph-animate"
                 style={{ animationDelay: "0.1s" }}
               >
-                {" "}
-                {/* Added animation delay */}
                 <h3 className="neumorph-skill-title">
-                  {" "}
-                  {/* Changed to skill-title for consistent styling */}
                   <BookOpen size={24} />
                   <span
                     className="neumorph-text-animate"
@@ -224,8 +289,6 @@ const AboutPage = () => {
                     marginTop: "1rem",
                   }}
                 >
-                  {" "}
-                  {/* Added margin-top for spacing */}
                   <span
                     className="neumorph-text-animate"
                     style={{
@@ -241,8 +304,6 @@ const AboutPage = () => {
                     className="neumorph-skill-list"
                     style={{ marginTop: "0.5rem" }}
                   >
-                    {" "}
-                    {/* Added margin-top to separate from title */}
                     <li>Programming Fundamentals</li>
                     <li>Object-Oriented Programming</li>
                     <li>Data Structures</li>
@@ -288,11 +349,12 @@ const AboutPage = () => {
                   marginBottom: "1.5rem",
                 }}
               >
-                I'm a passionate MERN Stack Developer and eCommerce Specialist
-                with experience in full-stack app development, AI integration,
-                and online store customization. My journey in technology started
-                during my studies at the University of Gujrat, where I developed
-                a strong foundation in information technology.
+                I'm a passionate Full‑Stack Developer and eCommerce Specialist
+                with experience in full‑stack app development, AI‑assisted
+                workflows, and online store customisation. My journey in
+                technology started during my studies at the University of
+                Gujrat, where I developed a strong foundation in information
+                technology.
               </p>
               <p
                 style={{
@@ -301,12 +363,12 @@ const AboutPage = () => {
                   marginBottom: "1.5rem",
                 }}
               >
-                I've built and deployed several projects including a travel and
-                documentation services platform (Paswal Tours LTD) offering Visa
-                Processing, International Flight Booking, and Pakistan NADRA
-                Services, an AI-powered eCommerce platform (Green Garden). I'm
-                skilled in React, Node.js, MongoDB, WordPress, Shopify, and
-                AI-assisted development.
+                I've built and deployed several projects, including a travel and
+                documentation services platform (Paswal Tours LTD) offering visa
+                processing, international flight booking, and Pakistan NADRA
+                services, and an AI‑powered eCommerce platform (Green Garden).
+                I'm skilled in React, Node.js, MongoDB, WordPress, Shopify, and
+                AI‑assisted development.
               </p>
               <p
                 style={{
@@ -314,9 +376,15 @@ const AboutPage = () => {
                   color: "#d1d5db",
                 }}
               >
-                I'm passionate about creating scalable, user-friendly
-                applications and eager to contribute to innovative projects
-                while advancing my expertise in cutting-edge technologies.
+                Recently, I've expanded into Next.js, NestJS, PostgreSQL, and
+                Flutter backend integration. I successfully resolved bugs across
+                the Vividhood platform, restoring stability to a live production
+                environment, and integrated APIs endpoints into the mobile app,
+                delivering a fully synchronised customer and provider
+                experience. I'm passionate about creating scalable,
+                user‑friendly applications and eager to contribute to innovative
+                projects while advancing my expertise in cutting‑edge
+                technologies.
               </p>
             </div>
 

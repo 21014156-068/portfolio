@@ -1,130 +1,79 @@
+// src/pages/Home.jsx
 import React, { useState, useEffect, useRef } from "react";
 import {
   ChevronRight,
   Download,
   Briefcase,
-  User,
-  Mail,
-  ExternalLink,
-  ArrowRight,
   Code,
-  Server,
-  Database,
-  Palette,
+  Mail,
+  ArrowRight,
+  Calendar,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-// Sample projects data
-const projects = [
-  {
-    title: "EyeCon",
-    description:
-      "A full-stack MERN clinic management system designed for modern ophthalmology clinics",
-    tags: ["React", "Node.js", "Express.js", "MongoDB", "AI", "CNN"],
-    image: "/cli.png",
-  },
-  {
-    title: "Paswal Tours LTD",
-    description:
-      "A travel agency website built with WordPress, featuring custom themes and SEO optimization.",
-    tags: ["Wordpress", "PHP", "SEO", "Elementor"],
-    image: "/pa1.png",
-  },
-  {
-    title: "Green Garden – AI-Powered E-Commerce Platform",
-    description:
-      "MERN stack e-commerce platform for a plant nursery with AI chatbot and CNN-based plant recognition model.",
-    tags: ["React", "Node.js", "Express.js", "MongoDB", "AI", "CNN"],
-    image: "/Main.png",
-  },
-  {
-    title: "Alfattah Vibes",
-    description:
-      "A comprehensive eCommerce platform built with wordpress woocommerce for local business owner to sell their products online.",
-    tags: ["Wordpress", "WooCommerce", "PHP", "SEO", "Elementor"],
-    image: "/p3.png",
-  },
-
-  {
-    title: "Portfolio Website",
-    description:
-      "A professional developer portfolio built with React, TailwindCSS, Framer Motion, and Three.js.",
-    tags: ["React", "Firebase", "Framer Motion"],
-    image: "/p3.png",
-  },
-];
-
-// Sample services data
-const services = [
-  {
-    icon: <Code size={36} />,
-    title: "Frontend Development",
-    description: "Modern, responsive web applications with React and Next.js",
-  },
-  {
-    icon: <Server size={36} />,
-    title: "Backend Development",
-    description: "Robust server-side solutions with Node.js and Express",
-  },
-  {
-    icon: <Database size={36} />,
-    title: "Database Design",
-    description: "Efficient database architecture and optimization",
-  },
-  {
-    icon: <Palette size={36} />,
-    title: "UI/UX Design",
-    description: "User-centered interfaces with modern design principles",
-  },
-];
-
-// Sample achievements data
+// Achievements
 const achievements = [
   { value: "15+", label: "Projects Completed" },
   { value: "3", label: "Years Experience" },
   { value: "100%", label: "Client Satisfaction" },
-  { value: "∞", label: "Coffee Cups" },
 ];
 
 const HomePage = () => {
-  const [setMousePosition] = useState({ x: 0, y: 0 });
-  const [activeProject, setActiveProject] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const heroRef = useRef(null);
-  const projectsRef = useRef(null);
 
-  // Check if device is mobile
   useEffect(() => {
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-
     checkIsMobile();
     window.addEventListener("resize", checkIsMobile);
-
     return () => window.removeEventListener("resize", checkIsMobile);
   }, []);
 
-  // Track mouse position for parallax effects
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
-  // Project carousel auto-rotation
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveProject((prev) => (prev + 1) % projects.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Skill icons for the hero section
+  // Updated skill icons – aligned with your About page skills
+  const skillIcons = [
+    {
+      name: "React",
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+    },
+    {
+      name: "Next.js",
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+    },
+    {
+      name: "TypeScript",
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+    },
+    {
+      name: "Node.js",
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+    },
+    {
+      name: "Express",
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
+    },
+    {
+      name: "MongoDB",
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
+    },
+    {
+      name: "PostgreSQL",
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
+    },
+    {
+      name: "Flutter",
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg",
+    },
+    {
+      name: "Git",
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+    },
+    {
+      name: "WordPress",
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-original.svg",
+    },
+  ];
 
   return (
     <div
@@ -136,7 +85,7 @@ const HomePage = () => {
         overflowX: "hidden",
       }}
     >
-      {/* Hero Section - Made Responsive */}
+      {/* ===== Hero Section ===== */}
       <section
         ref={heroRef}
         style={{
@@ -148,7 +97,7 @@ const HomePage = () => {
           padding: isMobile ? "0 1rem" : "0 2rem",
         }}
       >
-        {/* Enhanced 3D Holographic Background */}
+        {/* Holographic background effects */}
         <div
           style={{
             position: "absolute",
@@ -161,7 +110,6 @@ const HomePage = () => {
           }}
         ></div>
 
-        {/* New 3D holographic pyramid */}
         <div
           style={{
             position: "absolute",
@@ -180,7 +128,6 @@ const HomePage = () => {
           }}
         ></div>
 
-        {/* New holographic grid effect with 3D depth */}
         <div
           style={{
             position: "absolute",
@@ -189,9 +136,9 @@ const HomePage = () => {
             width: "100%",
             height: "100%",
             backgroundImage: `
-            linear-gradient(rgba(79, 70, 229, 0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(79, 70, 229, 0.1) 1px, transparent 1px)
-          `,
+              linear-gradient(rgba(79, 70, 229, 0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(79, 70, 229, 0.1) 1px, transparent 1px)
+            `,
             backgroundSize: "50px 50px",
             opacity: 0.2,
             pointerEvents: "none",
@@ -202,7 +149,7 @@ const HomePage = () => {
           }}
         ></div>
 
-        {/* Enhanced 3D Content Container */}
+        {/* Hero content */}
         <div
           style={{
             position: "relative",
@@ -305,11 +252,7 @@ const HomePage = () => {
                 </button>
               </Link>
 
-              <Link
-                to="/CV.pdf"
-                download
-                style={{ textDecoration: "none" }} // removes underline
-              >
+              <a href="/CV.pdf" download style={{ textDecoration: "none" }}>
                 <button
                   style={{
                     padding: "0.875rem 2rem",
@@ -339,7 +282,7 @@ const HomePage = () => {
                   Download CV
                   <Download size={20} />
                 </button>
-              </Link>
+              </a>
             </div>
 
             <div
@@ -384,113 +327,61 @@ const HomePage = () => {
             </div>
           </div>
 
-          {/* Skills Icons Grid - Made Responsive */}
+          {/* Updated Skills Icons Grid */}
           <div
             style={{
               display: "grid",
-              // --- CHANGE HERE ---
-              // Adjusted gridTemplateColumns for more columns
               gridTemplateColumns: isMobile
                 ? "repeat(3, 1fr)"
-                : "repeat(5, 1fr)", // Changed from 2/3 to 3/5
-              // Decreased gap
-              gap: isMobile ? "0.8rem" : "1rem", // Decreased gap for both mobile and desktop
-              // --- END CHANGE ---
+                : "repeat(5, 1fr)",
+              gap: isMobile ? "0.8rem" : "1rem",
               justifyItems: "center",
               marginTop: isMobile ? "2rem" : "0",
             }}
           >
-            {/* Existing skillIcons + new ones */}
-            {[
-              {
-                name: "React",
-                icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-              },
-              {
-                name: "Node.js",
-                icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-              },
-              {
-                name: "JavaScript",
-                icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-              },
-              {
-                name: "MongoDB",
-                icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
-              },
-              {
-                name: "Git",
-                icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
-              },
-              // New Icons
-              {
-                name: "HTML",
-                icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
-              },
-              {
-                name: "CSS",
-                icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
-              },
-              {
-                name: "WordPress",
-                icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-original.svg",
-              },
-              {
-                name: "Shopify",
-                icon: "https://static.cdnlogo.com/logos/s/31/shopify-2018.svg",
-              },
-              {
-                name: "SEO",
-                icon: "https://static.thenounproject.com/png/2218918-512.png",
-              },
-            ].map(
-              (
-                skill,
-                index, // Make sure to update the array being mapped
-              ) => (
-                <div
-                  key={index}
+            {skillIcons.map((skill, index) => (
+              <div
+                key={index}
+                style={{
+                  width: isMobile ? "60px" : "70px",
+                  height: isMobile ? "60px" : "70px",
+                  borderRadius: "16px",
+                  background: "rgba(255, 255, 255, 0.05)",
+                  backdropFilter: "blur(10px)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.3s ease",
+                  animation: `float 3s ease-in-out infinite ${index * 0.2}s`,
+                  transformStyle: "preserve-3d",
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.transform =
+                    "translateY(-5px) scale(1.1) rotateY(10deg)";
+                  e.target.style.boxShadow =
+                    "0 10px 25px rgba(79, 70, 229, 0.3)";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform =
+                    "translateY(0) scale(1) rotateY(0)";
+                  e.target.style.boxShadow = "none";
+                }}
+              >
+                <img
+                  src={skill.icon}
+                  alt={skill.name}
                   style={{
-                    width: isMobile ? "60px" : "70px", // Slightly decreased size to fit more
-                    height: isMobile ? "60px" : "70px", // Slightly decreased size to fit more
-                    borderRadius: "16px",
-                    background: "rgba(255, 255, 255, 0.05)",
-                    backdropFilter: "blur(10px)",
-                    border: "1px solid rgba(255, 255, 255, 0.1)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    transition: "all 0.3s ease",
-                    animation: `float 3s ease-in-out infinite ${index * 0.2}s`,
-                    transformStyle: "preserve-3d",
+                    width: isMobile ? "28px" : "35px",
+                    height: isMobile ? "28px" : "35px",
                   }}
-                  onMouseEnter={(e) => {
-                    e.target.style.transform =
-                      "translateY(-5px) scale(1.1) rotateY(10deg)";
-                    e.target.style.boxShadow =
-                      "0 10px 25px rgba(79, 70, 229, 0.3)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.transform =
-                      "translateY(0) scale(1) rotateY(0)";
-                    e.target.style.boxShadow = "none";
-                  }}
-                >
-                  <img
-                    src={skill.icon}
-                    alt={skill.name}
-                    style={{
-                      width: isMobile ? "28px" : "35px",
-                      height: isMobile ? "28px" : "35px",
-                    }} // Adjusted icon size
-                  />
-                </div>
-              ),
-            )}
+                />
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Floating CV Button - Position Adjusted for Mobile */}
+        {/* Floating CV Button */}
         <a
           href="/CV.pdf"
           download
@@ -524,286 +415,142 @@ const HomePage = () => {
         </a>
       </section>
 
-      {/* Rest of the sections remain exactly the same */}
-      {/* Highlight Cards Section */}
-      {/* Highlight Cards Section */}
+      {/* ===== About Section (merged from old About.jsx) ===== */}
       <section
         style={{
           padding: isMobile ? "4rem 1rem" : "6rem 2rem",
           position: "relative",
         }}
       >
-        <div
-          style={{
-            maxWidth: "1200px",
-            margin: "0 auto",
-          }}
-        >
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: isMobile
-                ? "1fr"
-                : "repeat(auto-fit, minmax(250px, 1fr))",
-              gap: "2rem",
-              marginBottom: "4rem",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "3rem",
+              alignItems: "center",
             }}
           >
-            {/* About Me Card */}
+            {/* Photo */}
             <div
-              className="neumorph-card highlight-card"
               style={{
-                // Added highlight-card class
-                background: "#151a22",
-                borderRadius: "20px",
-                padding: "2rem",
-                boxShadow: "9px 9px 24px #0b0c10, -9px -9px 24px #232838",
-                border: "1px solid rgba(255,255,255,0.08)",
-                transition: "all 0.3s ease",
-                cursor: "pointer",
-                position: "relative", // Needed for :before pseudo-element
-                zIndex: 0, // Needed for :before pseudo-element
+                flex: "1 1 300px",
+                borderRadius: "24px",
+                overflow: "hidden",
+                boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4)",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: "1.5rem",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "50px",
-                    height: "50px",
-                    borderRadius: "12px",
-                    background:
-                      "linear-gradient(145deg, rgba(79, 70, 229, 0.2), rgba(236, 72, 153, 0.2))",
-                    marginRight: "1rem",
-                  }}
-                >
-                  <User size={24} color="#4f46e5" />
-                </div>
-                <h3
-                  className="card-content"
-                  style={{
-                    // Added card-content class
-                    fontSize: "1.25rem",
-                    fontWeight: 600,
-                    background: "linear-gradient(to right, #4f46e5, #ec4899)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    transition: "all 0.3s ease", // Added transition
-                  }}
-                >
-                  About Me
-                </h3>
-              </div>
-              <p
-                className="card-content"
-                style={{
-                  // Added card-content class
-                  color: "#d1d5db",
-                  marginBottom: "1.5rem",
-                  lineHeight: 1.6,
-                  transition: "all 0.3s ease", // Added transition
-                }}
-              >
-                Learn more about my journey, skills, and what drives me as a
-                developer.
-              </p>
-              <Link
-                to="/about"
-                className="card-content"
-                style={{
-                  // Added card-content class
-                  display: "flex",
-                  alignItems: "center",
-                  color: "#4f46e5",
-                  fontWeight: 600,
-                  textDecoration: "none",
-                  transition: "all 0.3s ease", // Added transition
-                }}
-              >
-                Discover more
-                <ArrowRight size={16} style={{ marginLeft: "0.5rem" }} />
-              </Link>
+              <img
+                src="/pro.jpg"
+                alt="Abdullah Afzaal"
+                style={{ width: "100%", height: "auto", display: "block" }}
+              />
             </div>
 
-            {/* My Projects Card */}
-            <div
-              className="neumorph-card highlight-card"
-              style={{
-                // Added highlight-card class
-                background: "#151a22",
-                borderRadius: "20px",
-                padding: "2rem",
-                boxShadow: "9px 9px 24px #0b0c10, -9px -9px 24px #232838",
-                border: "1px solid rgba(255,255,255,0.08)",
-                transition: "all 0.3s ease",
-                cursor: "pointer",
-                position: "relative", // Needed for :before pseudo-element
-                zIndex: 0, // Needed for :before pseudo-element
-              }}
-            >
-              <div
+            {/* Bio & Education */}
+            <div style={{ flex: "2 1 500px" }}>
+              <h2
                 style={{
-                  display: "flex",
-                  alignItems: "center",
+                  fontSize: "2rem",
                   marginBottom: "1.5rem",
+                  background: "linear-gradient(to right, #4f46e5, #ec4899)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  display: "inline-block",
                 }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "50px",
-                    height: "50px",
-                    borderRadius: "12px",
-                    background:
-                      "linear-gradient(145deg, rgba(79, 70, 229, 0.2), rgba(236, 72, 153, 0.2))",
-                    marginRight: "1rem",
-                  }}
-                >
-                  <Briefcase size={24} color="#4f46e5" />
-                </div>
-                <h3
-                  className="card-content"
-                  style={{
-                    // Added card-content class
-                    fontSize: "1.25rem",
-                    fontWeight: 600,
-                    background: "linear-gradient(to right, #4f46e5, #ec4899)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    transition: "all 0.3s ease", // Added transition
-                  }}
-                >
-                  My Projects
-                </h3>
-              </div>
+                About Me
+              </h2>
               <p
-                className="card-content"
                 style={{
-                  // Added card-content class
+                  lineHeight: 1.7,
                   color: "#d1d5db",
                   marginBottom: "1.5rem",
-                  lineHeight: 1.6,
-                  transition: "all 0.3s ease", // Added transition
                 }}
               >
-                Explore my portfolio of web applications and digital solutions.
+                I'm a passionate Full‑Stack Developer and eCommerce Specialist
+                with experience in full‑stack app development, AI‑assisted
+                workflows, and online store customisation. My journey started
+                during my studies at the University of Gujrat, where I built a
+                strong foundation in information technology.
               </p>
-              <Link
-                to="/projects"
-                className="card-content"
+              <p
                 style={{
-                  // Added card-content class
-                  display: "flex",
-                  alignItems: "center",
-                  color: "#4f46e5",
-                  fontWeight: 600,
-                  textDecoration: "none",
-                  transition: "all 0.3s ease", // Added transition
+                  lineHeight: 1.7,
+                  color: "#d1d5db",
+                  marginBottom: "1.5rem",
                 }}
               >
-                View all projects
-                <ArrowRight size={16} style={{ marginLeft: "0.5rem" }} />
-              </Link>
-            </div>
+                I've built and deployed several projects, including a travel and
+                documentation services platform (Paswal Tours LTD) and an
+                AI‑powered eCommerce platform (Green Garden). I’m skilled in
+                React, Node.js, MongoDB, WordPress, Shopify, and AI‑assisted
+                development.
+              </p>
+              <p
+                style={{
+                  lineHeight: 1.7,
+                  color: "#d1d5db",
+                  marginBottom: "2rem",
+                }}
+              >
+                Recently, I've expanded into Next.js, NestJS, PostgreSQL, and
+                Flutter backend integration. I'm passionate about creating
+                scalable, user‑friendly applications and eager to contribute to
+                innovative projects.
+              </p>
 
-            {/* Contact Me Card */}
-            <div
-              className="neumorph-card highlight-card"
-              style={{
-                // Added highlight-card class
-                background: "#151a22",
-                borderRadius: "20px",
-                padding: "2rem",
-                boxShadow: "9px 9px 24px #0b0c10, -9px -9px 24px #232838",
-                border: "1px solid rgba(255,255,255,0.08)",
-                transition: "all 0.3s ease",
-                cursor: "pointer",
-                position: "relative", // Needed for :before pseudo-element
-                zIndex: 0, // Needed for :before pseudo-element
-              }}
-            >
+              {/* Education highlight card */}
               <div
                 style={{
+                  background: "#151a22",
+                  borderRadius: "16px",
+                  padding: "1.5rem",
+                  boxShadow: "9px 9px 24px #0b0c10, -9px -9px 24px #232838",
+                  border: "1px solid rgba(255,255,255,0.08)",
                   display: "flex",
                   alignItems: "center",
-                  marginBottom: "1.5rem",
+                  gap: "1rem",
+                  flexWrap: "wrap",
                 }}
               >
                 <div
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "50px",
-                    height: "50px",
-                    borderRadius: "12px",
                     background:
                       "linear-gradient(145deg, rgba(79, 70, 229, 0.2), rgba(236, 72, 153, 0.2))",
-                    marginRight: "1rem",
+                    borderRadius: "12px",
+                    padding: "0.75rem",
                   }}
                 >
-                  <Mail size={24} color="#4f46e5" />
+                  <Calendar size={24} color="#4f46e5" />
                 </div>
-                <h3
-                  className="card-content"
-                  style={{
-                    // Added card-content class
-                    fontSize: "1.25rem",
-                    fontWeight: 600,
-                    background: "linear-gradient(to right, #4f46e5, #ec4899)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    transition: "all 0.3s ease", // Added transition
-                  }}
-                >
-                  Contact Me
-                </h3>
+                <div>
+                  <h3
+                    style={{
+                      fontSize: "1.25rem",
+                      fontWeight: 600,
+                      background: "linear-gradient(to right, #4f46e5, #ec4899)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      marginBottom: "0.25rem",
+                    }}
+                  >
+                    BS Information Technology
+                  </h3>
+                  <p style={{ color: "#d1d5db", margin: 0 }}>
+                    University of Gujrat, Pakistan &nbsp;|&nbsp; 2021 - 2025
+                  </p>
+                  <p style={{ color: "#d1d5db", margin: "0.25rem 0 0 0" }}>
+                    GPA: 2.78/4.0
+                  </p>
+                </div>
               </div>
-              <p
-                className="card-content"
-                style={{
-                  // Added card-content class
-                  color: "#d1d5db",
-                  marginBottom: "1.5rem",
-                  lineHeight: 1.6,
-                  transition: "all 0.3s ease", // Added transition
-                }}
-              >
-                Ready to start a project? Get in touch and let's discuss your
-                ideas.
-              </p>
-              <Link
-                to="/contact"
-                className="card-content"
-                style={{
-                  // A
-                  display: "flex",
-                  alignItems: "center",
-                  color: "#4f46e5",
-                  fontWeight: 600,
-                  textDecoration: "none",
-                  transition: "all 0.3s ease",
-                }}
-              >
-                Get in touch
-                <ArrowRight size={16} style={{ marginLeft: "0.5rem" }} />
-              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Projects Preview Section */}
+      {/* ===== Navigation Cards Section ===== */}
       <section
         style={{
           padding: isMobile ? "4rem 1rem" : "6rem 2rem",
@@ -814,341 +561,257 @@ const HomePage = () => {
           style={{
             maxWidth: "1200px",
             margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: isMobile
+              ? "1fr"
+              : "repeat(auto-fit, minmax(250px, 1fr))",
+            gap: "2rem",
           }}
         >
+          {/* My Projects Card */}
           <div
+            className="neumorph-card highlight-card"
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-end",
-              marginBottom: "3rem",
-              flexDirection: isMobile ? "column" : "row",
-
-              gap: isMobile ? "1rem" : "0",
+              background: "#151a22",
+              borderRadius: "20px",
+              padding: "2rem",
+              boxShadow: "9px 9px 24px #0b0c10, -9px -9px 24px #232838",
+              border: "1px solid rgba(255,255,255,0.08)",
+              transition: "all 0.3s ease",
+              cursor: "pointer",
+              position: "relative",
+              zIndex: 0,
             }}
           >
-            <h2
+            <div
               style={{
-                fontSize: isMobile ? "2rem" : "2.5rem",
-                fontWeight: 700,
-                background: "linear-gradient(to right, #fff, #d1d5db)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "1.5rem",
               }}
             >
-              Featured Projects
-            </h2>
-
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "12px",
+                  background:
+                    "linear-gradient(145deg, rgba(79, 70, 229, 0.2), rgba(236, 72, 153, 0.2))",
+                  marginRight: "1rem",
+                }}
+              >
+                <Briefcase size={24} color="#4f46e5" />
+              </div>
+              <h3
+                className="card-content"
+                style={{
+                  fontSize: "1.25rem",
+                  fontWeight: 600,
+                  background: "linear-gradient(to right, #4f46e5, #ec4899)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  transition: "all 0.3s ease",
+                }}
+              >
+                My Projects
+              </h3>
+            </div>
+            <p
+              className="card-content"
+              style={{
+                color: "#d1d5db",
+                marginBottom: "1.5rem",
+                lineHeight: 1.6,
+                transition: "all 0.3s ease",
+              }}
+            >
+              Explore my portfolio of web applications and digital solutions.
+            </p>
             <Link
               to="/projects"
+              className="card-content"
               style={{
                 display: "flex",
                 alignItems: "center",
                 color: "#4f46e5",
                 fontWeight: 600,
                 textDecoration: "none",
+                transition: "all 0.3s ease",
               }}
             >
               View all projects
-              <ArrowRight size={20} style={{ marginLeft: "0.5rem" }} />
-            </Link>
-          </div>
-
-          <div
-            ref={projectsRef}
-            style={{
-              position: "relative",
-              height: isMobile ? "300px" : "400px",
-              borderRadius: "20px",
-              overflow: "hidden",
-            }}
-          >
-            {projects.map((project, index) => (
-              <div
-                key={index}
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  opacity: index === activeProject ? 1 : 0,
-                  transform: `scale(${index === activeProject ? 1 : 0.95})`,
-                  transition: "opacity 0.8s ease, transform 0.8s ease",
-                  background: `linear-gradient(rgba(13, 15, 19, 0.7), rgba(13, 15, 19, 0.9)), url(${project.image}) center/cover`,
-                  borderRadius: "20px",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "flex-end",
-                  padding: isMobile ? "1.5rem" : "2rem",
-                  boxSizing: "border-box",
-                }}
-              >
-                <h3
-                  style={{
-                    fontSize: isMobile ? "1.5rem" : "1.75rem",
-                    fontWeight: 700,
-                    marginBottom: "1rem",
-                    color: "#fff",
-                  }}
-                >
-                  {project.title}
-                </h3>
-
-                <p
-                  style={{
-                    color: "#d1d5db",
-                    marginBottom: "1.5rem",
-                    maxWidth: "500px",
-                  }}
-                >
-                  {project.description}
-                </p>
-
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "0.5rem",
-                    marginBottom: "1.5rem",
-                    flexWrap: "wrap",
-                  }}
-                >
-                  {project.tags.map((tag, i) => (
-                    <span
-                      key={i}
-                      style={{
-                        padding: "0.25rem 0.75rem",
-                        borderRadius: "20px",
-                        background: "rgba(79, 70, 229, 0.2)",
-                        color: "#4f46e5",
-                        fontSize: "0.875rem",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <Link
-                  to="/projects"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    color: "#4f46e5",
-                    fontWeight: 600,
-                    textDecoration: "none",
-                  }}
-                >
-                  View project
-                  <ExternalLink size={16} style={{ marginLeft: "0.5rem" }} />
-                </Link>
-              </div>
-            ))}
-
-            <div
-              style={{
-                position: "absolute",
-                bottom: isMobile ? "1.5rem" : "2rem",
-                left: "50%",
-                transform: "translateX(-50%)",
-                display: "flex",
-                gap: "0.5rem",
-              }}
-            >
-              {projects.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveProject(index)}
-                  style={{
-                    width: "12px",
-                    height: "12px",
-                    borderRadius: "50%",
-                    border: "none",
-                    background:
-                      index === activeProject
-                        ? "#4f46e5"
-                        : "rgba(255, 255, 255, 0.2)",
-                    cursor: "pointer",
-                    transition: "background 0.3s ease",
-                  }}
-                ></button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      {/* Services Section */}
-      <section
-        style={{
-          padding: isMobile ? "4rem 1rem" : "6rem 2rem",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "1200px",
-            margin: "0 auto",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-end",
-              marginBottom: "3rem",
-              flexDirection: isMobile ? "column" : "row",
-              gap: isMobile ? "1rem" : "0",
-            }}
-          >
-            <h2
-              style={{
-                fontSize: isMobile ? "2rem" : "2.5rem",
-                fontWeight: 700,
-                background: "linear-gradient(to right, #fff, #d1d5db)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              My Services
-            </h2>
-
-            <Link
-              to="/services"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                color: "#4f46e5",
-                fontWeight: 600,
-                textDecoration: "none",
-                padding: "0.5rem 1rem",
-                borderRadius: "8px",
-                border: "1px solid rgba(79, 70, 229, 0.3)",
-                transition: "all 0.3s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.background = "rgba(79, 70, 229, 0.1)";
-                e.target.style.transform = "translateY(-2px)";
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = "transparent";
-                e.target.style.transform = "translateY(0)";
-              }}
-            >
-              See All Services
               <ArrowRight size={16} style={{ marginLeft: "0.5rem" }} />
             </Link>
           </div>
 
+          {/* Technical Skills Card */}
           <div
+            className="neumorph-card highlight-card"
             style={{
-              display: "grid",
-              gridTemplateColumns: isMobile
-                ? "1fr"
-                : "repeat(auto-fit, minmax(250px, 1fr))",
-              gap: "2rem",
+              background: "#151a22",
+              borderRadius: "20px",
+              padding: "2rem",
+              boxShadow: "9px 9px 24px #0b0c10, -9px -9px 24px #232838",
+              border: "1px solid rgba(255,255,255,0.08)",
+              transition: "all 0.3s ease",
+              cursor: "pointer",
+              position: "relative",
+              zIndex: 0,
             }}
           >
-            {services.map((service, index) => (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "1.5rem",
+              }}
+            >
               <div
-                key={index}
-                className="tilt-card highlight-card neumorph-card"
                 style={{
-                  // ADDED highlight-card here
-                  background: "#151a22",
-                  borderRadius: "20px",
-                  padding: "2rem",
-                  boxShadow: "9px 9px 24px #0b0c10, -9px -9px 24px #232838",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  transition: "all 0.3s ease",
-                  textAlign: "center",
-                  transform: "perspective(1000px) rotateX(0) rotateY(0)",
-                  position: "relative",
-                  overflow: "hidden",
-                  zIndex: 0,
-                }}
-                // Keep your onMouseMove and onMouseLeave for the tilt effect
-                onMouseMove={(e) => {
-                  if (isMobile) return;
-
-                  const card = e.currentTarget;
-                  const rect = card.getBoundingClientRect();
-                  const x = e.clientX - rect.left;
-                  const y = e.clientY - rect.top;
-
-                  const centerX = rect.width / 2;
-                  const centerY = rect.height / 2;
-
-                  const rotateY = (x - centerX) / 25;
-                  const rotateX = (centerY - y) / 25;
-
-                  card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-                  card.style.boxShadow = `
-                  ${-rotateY * 2}px ${rotateX * 2}px 20px rgba(0, 0, 0, 0.2),
-                  inset 0 0 30px rgba(79, 70, 229, 0.1)
-                `;
-                }}
-                onMouseLeave={(e) => {
-                  if (isMobile) return;
-
-                  const card = e.currentTarget;
-                  card.style.transform =
-                    "perspective(1000px) rotateX(0) rotateY(0)";
-                  card.style.boxShadow =
-                    "9px 9px 24px #0b0c10, -9px -9px 24px #232838";
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "12px",
+                  background:
+                    "linear-gradient(145deg, rgba(79, 70, 229, 0.2), rgba(236, 72, 153, 0.2))",
+                  marginRight: "1rem",
                 }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginBottom: "1.5rem",
-                    color: "#4f46e5",
-                    transition: "all 0.3s ease", // Added transition for icon color
-                  }}
-                >
-                  {service.icon}
-                </div>
-
-                <h3
-                  className="card-content"
-                  style={{
-                    // ADDED card-content here
-                    fontSize: "1.25rem",
-                    fontWeight: 600,
-                    marginBottom: "1rem",
-                    background: "linear-gradient(to right, #4f46e5, #ec4899)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    transition: "all 0.3s ease", // Added transition
-                  }}
-                >
-                  {service.title}
-                </h3>
-
-                <p
-                  className="card-content"
-                  style={{
-                    // ADDED card-content here
-                    color: "#d1d5db",
-                    lineHeight: 1.6,
-                    transition: "all 0.3s ease", // Added transition
-                  }}
-                >
-                  {service.description}
-                </p>
+                <Code size={24} color="#4f46e5" />
               </div>
-            ))}
+              <h3
+                className="card-content"
+                style={{
+                  fontSize: "1.25rem",
+                  fontWeight: 600,
+                  background: "linear-gradient(to right, #4f46e5, #ec4899)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  transition: "all 0.3s ease",
+                }}
+              >
+                Technical Skills
+              </h3>
+            </div>
+            <p
+              className="card-content"
+              style={{
+                color: "#d1d5db",
+                marginBottom: "1.5rem",
+                lineHeight: 1.6,
+                transition: "all 0.3s ease",
+              }}
+            >
+              A detailed overview of my languages, frameworks, and tools.
+            </p>
+            <Link
+              to="/skills"
+              className="card-content"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                color: "#4f46e5",
+                fontWeight: 600,
+                textDecoration: "none",
+                transition: "all 0.3s ease",
+              }}
+            >
+              See my skills
+              <ArrowRight size={16} style={{ marginLeft: "0.5rem" }} />
+            </Link>
+          </div>
+
+          {/* Contact Me Card */}
+          <div
+            className="neumorph-card highlight-card"
+            style={{
+              background: "#151a22",
+              borderRadius: "20px",
+              padding: "2rem",
+              boxShadow: "9px 9px 24px #0b0c10, -9px -9px 24px #232838",
+              border: "1px solid rgba(255,255,255,0.08)",
+              transition: "all 0.3s ease",
+              cursor: "pointer",
+              position: "relative",
+              zIndex: 0,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "1.5rem",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "12px",
+                  background:
+                    "linear-gradient(145deg, rgba(79, 70, 229, 0.2), rgba(236, 72, 153, 0.2))",
+                  marginRight: "1rem",
+                }}
+              >
+                <Mail size={24} color="#4f46e5" />
+              </div>
+              <h3
+                className="card-content"
+                style={{
+                  fontSize: "1.25rem",
+                  fontWeight: 600,
+                  background: "linear-gradient(to right, #4f46e5, #ec4899)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  transition: "all 0.3s ease",
+                }}
+              >
+                Contact Me
+              </h3>
+            </div>
+            <p
+              className="card-content"
+              style={{
+                color: "#d1d5db",
+                marginBottom: "1.5rem",
+                lineHeight: 1.6,
+                transition: "all 0.3s ease",
+              }}
+            >
+              Ready to start a project? Get in touch and let's discuss your
+              ideas.
+            </p>
+            <Link
+              to="/contact"
+              className="card-content"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                color: "#4f46e5",
+                fontWeight: 600,
+                textDecoration: "none",
+                transition: "all 0.3s ease",
+              }}
+            >
+              Get in touch
+              <ArrowRight size={16} style={{ marginLeft: "0.5rem" }} />
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Enhanced CTA Section */}
+      {/* ===== CTA Section ===== */}
       <section
         style={{
           padding: isMobile ? "4rem 1rem" : "6rem 2rem",
-
           background: "linear-gradient(45deg, #4f46e5, #ec4899)",
           textAlign: "center",
           position: "relative",
@@ -1162,12 +825,11 @@ const HomePage = () => {
             left: "-50%",
             width: "200%",
             height: "200%",
-            // Consider changing this gradient or its opacity to blend with the new background
             background:
-              "linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent)", // Changed to white for subtle effect
+              "linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent)",
             animation: "gradientShift 8s ease infinite",
             transform: "rotate(30deg)",
-            opacity: 0.2, // Reduced opacity
+            opacity: 0.2,
           }}
         ></div>
 
@@ -1184,13 +846,9 @@ const HomePage = () => {
               fontSize: isMobile ? "2rem" : "2.5rem",
               fontWeight: 700,
               marginBottom: "1.5rem",
-              // --- TEXT COLOR ADJUSTMENT ---
-              // The existing text gradient might not contrast well on the new background.
-              // Consider changing this to a solid white or a gradient that stands out.
-              background: "linear-gradient(to right, #fff, #e0e0e0)", // Slightly lighter for contrast
+              background: "linear-gradient(to right, #fff, #e0e0e0)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
-              // --- END TEXT COLOR ADJUSTMENT ---
             }}
           >
             Let's Build Something Amazing Together
@@ -1199,9 +857,7 @@ const HomePage = () => {
           <p
             style={{
               fontSize: isMobile ? "1.1rem" : "1.25rem",
-              // --- TEXT COLOR ADJUSTMENT ---
-              color: "#e0e0e0", // Lighter grey for better contrast
-              // --- END TEXT COLOR ADJUSTMENT ---
+              color: "#e0e0e0",
               marginBottom: "2.5rem",
               lineHeight: 1.6,
             }}
@@ -1220,26 +876,25 @@ const HomePage = () => {
                 fontWeight: 600,
                 cursor: "pointer",
                 transition: "all 0.3s ease",
-                // Keep button background as is, it contrasts well
-                background: "linear-gradient(145deg, #fff, #e0e0e0)", // Changed to white/light grey gradient for contrast
-                color: "#4f46e5", // Changed text color to purple for contrast
+                background: "linear-gradient(145deg, #fff, #e0e0e0)",
+                color: "#4f46e5",
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.5rem",
-                boxShadow: "0 4px 14px rgba(255, 255, 255, 0.4)", // Changed shadow to match new button background
+                boxShadow: "0 4px 14px rgba(255, 255, 255, 0.4)",
                 transform: "translateY(0)",
                 animation: "pulse 2s infinite",
               }}
               onMouseEnter={(e) => {
                 e.target.style.transform = "translateY(-3px)";
                 e.target.style.boxShadow =
-                  "0 8px 20px rgba(255, 255, 255, 0.6)"; // Changed shadow
+                  "0 8px 20px rgba(255, 255, 255, 0.6)";
                 e.target.style.animation = "none";
               }}
               onMouseLeave={(e) => {
                 e.target.style.transform = "translateY(0)";
                 e.target.style.boxShadow =
-                  "0 4px 14px rgba(255, 255, 255, 0.4)"; // Changed shadow
+                  "0 4px 14px rgba(255, 255, 255, 0.4)";
                 e.target.style.animation = "pulse 2s infinite";
               }}
             >
@@ -1250,160 +905,123 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Global Styles */}
+      {/* ===== Global Styles ===== */}
       <style>
         {`
-                /* New styles for highlight cards */
-        .highlight-card:hover {
-          transform: translateY(-10px);
-          box-shadow: 2px 2px 12px #0b0c10, -2px -2px 18px #20253a, 0 0 16px 2px #4f46e566;
-        }
+          .highlight-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 2px 2px 12px #0b0c10, -2px -2px 18px #20253a, 0 0 16px 2px #4f46e566;
+          }
 
-        .highlight-card:hover .card-content {
-          color: #fff; /* Example: change paragraph color to white */
-          background: linear-gradient(to right, #fff, #a78bfa); /* Example: change heading gradient */
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          filter: brightness(1.2); /* Example: make text a bit brighter */
-          transform: translateY(-2px); /* Slight lift for text */
-        }
-        
-        .highlight-card:hover .card-content[href] { /* Specific for the 'see all' link */
-          color: #a78bfa !important; /* Brighter purple for the link */
-          filter: brightness(1.3);
-        }
+          .highlight-card:hover .card-content {
+            color: #fff;
+            background: linear-gradient(to right, #fff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: brightness(1.2);
+            transform: translateY(-2px);
+          }
+          
+          .highlight-card:hover .card-content[href] {
+            color: #a78bfa !important;
+            filter: brightness(1.3);
+          }
 
-        @keyframes float {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-          100% { transform: translateY(0px); }
-        }
-        
-        @keyframes holograph {
-          0% { opacity: 0.3; }
-          50% { opacity: 0.7; }
-          100% { opacity: 0.3; }
-        }
-        
-        @keyframes holographGrid {
-          0% { background-position: 0 0; }
-          100% { background-position: 50px 50px; }
-        }
-        
-        @keyframes gradientShift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        
-        @keyframes pulse {
-          0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
-          70% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
-        }
-        
-        @keyframes hologramPyramid {
-          0% { 
-            opacity: 0.1;
-            transform: rotateX(60deg) rotateZ(45deg) translateY(0);
-          }
-          50% { 
-            opacity: 0.2;
-            transform: rotateX(60deg) rotateZ(45deg) translateY(-20px);
-          }
-          100% { 
-            opacity: 0.1;
-            transform: rotateX(60deg) rotateZ(45deg) translateY(0);
-          }
-        }
-        
-        .neumorph-card:hover::before {
-          content: '';
-          position: absolute;
-          top: -2px;
-          left: -2px;
-          right: -2px;
-          bottom: -2px;
-          z-index: -1;
-          background: linear-gradient(45deg, #4f46e5, #ec4899, #4f46e5);
-          border-radius: 22px;
-          animation: holograph 3s ease-in-out infinite;
-        }
-        
-                .neumorph-card:hover::before {
-          content: '';
-          position: absolute;
-          top: -2px;
-          left: -2px;
-          right: -2px;
-          bottom: -2px;
-          z-index: -1;
-          background: linear-gradient(45deg, #4f46e5, #ec4899, #4f46e5);
-          border-radius: 22px;
-          animation: holograph 3s ease-in-out infinite;
-        }
-                  .highlight-card:hover::before { /* Changed .neumorph-card to .highlight-card */
-          content: '';
-          position: absolute;
-          top: -2px;
-          left: -2px;
-          right: -2px;
-          bottom: -2px;
-          z-index: -1;
-          background: linear-gradient(45deg, #4f46e5, #ec4899, #4f46e5);
-          border-radius: 22px;
-          animation: holograph 3s ease-in-out infinite;
-        }
-        /* Smooth scrolling */
-        html {
-          scroll-behavior: smooth;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 968px) {
-          .hero-grid {
-            grid-template-columns: 1fr !important;
+          @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
           }
           
-          .skills-grid {
-            grid-template-columns: repeat(3, 1fr) !important;
-            margin-top: 3rem;
-          }
-        }
-        
-        @media (max-width: 768px) {
-          .tilt-card {
-            transform: none !important;
+          @keyframes holographGrid {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
           }
           
-          .skills-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
+          @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
           }
           
-          .hero-content {
-            text-align: center;
+          @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
           }
           
-          .hero-buttons {
-            justify-content: center;
+          @keyframes hologramPyramid {
+            0% { 
+              opacity: 0.1;
+              transform: rotateX(60deg) rotateZ(45deg) translateY(0);
+            }
+            50% { 
+              opacity: 0.2;
+              transform: rotateX(60deg) rotateZ(45deg) translateY(-20px);
+            }
+            100% { 
+              opacity: 0.1;
+              transform: rotateX(60deg) rotateZ(45deg) translateY(0);
+            }
           }
           
-          .hero-achievements {
-            justify-content: center;
+          .neumorph-card:hover::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            z-index: -1;
+            background: linear-gradient(45deg, #4f46e5, #ec4899, #4f46e5);
+            border-radius: 22px;
+            animation: holograph 3s ease-in-out infinite;
           }
-        }
-        
-        @media (max-width: 480px) {
-          .skills-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 0.8rem;
+
+          html {
+            scroll-behavior: smooth;
           }
           
-          .hero-buttons button {
-            width: 100%;
-            justify-content: center;
+          @media (max-width: 968px) {
+            .hero-grid {
+              grid-template-columns: 1fr !important;
+            }
+            
+            .skills-grid {
+              grid-template-columns: repeat(3, 1fr) !important;
+              margin-top: 3rem;
+            }
           }
-        }
+          
+          @media (max-width: 768px) {
+            .skills-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+            
+            .hero-content {
+              text-align: center;
+            }
+            
+            .hero-buttons {
+              justify-content: center;
+            }
+            
+            .hero-achievements {
+              justify-content: center;
+            }
+          }
+          
+          @media (max-width: 480px) {
+            .skills-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+              gap: 0.8rem;
+            }
+            
+            .hero-buttons button {
+              width: 100%;
+              justify-content: center;
+            }
+          }
         `}
       </style>
     </div>
